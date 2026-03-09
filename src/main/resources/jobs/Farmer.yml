@@ -1,0 +1,63 @@
+name: Farmer
+theme:
+- Nature Magic
+- Area Control
+xp_triggers:
+- Harvest crops
+- Plant crops
+- Use bone meal
+- Breed farm animals
+requirements: []
+bonuses:
+  generic.luck: 1.0
+skills:
+  Agronomist:
+    type: Active
+    category: Utility
+    description: Nearby crops instantly grow to maximum stage.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: BONE_MEAL
+    cooldown: 60
+  Harvester:
+    type: Passive
+    category: Utility
+    description: Break crops in an area and auto-replant.
+    preview_text: "Chance to trigger is {chance}%"
+    max_level: 5
+    points_per_level: 1
+    toggleable: true
+    trigger_item: IRON_HOE
+    chance_per_level: 20.0
+    max_chance: 100.0
+  Nature Embrace:
+    type: Active
+    category: Utility
+    description: Spawn temporary 6x6 crops beneath player. Standing on farmland grants
+      regeneration.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: LIME_DYE
+    icon: GRASS_BLOCK
+    cooldown: 120
+  Nature Bind:
+    type: Active
+    category: Offensive
+    description: Launch vine projectile that roots and poisons target.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: GREEN_DYE
+    icon: VINE
+    mana_cost: 20
+    cooldown: 15
+rewards:
+  Harvest crops: 10
+  Plant crops: 2
+  Use bone meal: 5
+  Breed farm animals: 15

@@ -1,0 +1,59 @@
+name: Nethermancer
+theme:
+- Nether Survival
+- Fire Combat
+xp_triggers:
+- Kill Nether mobs
+- Mine Nether ores
+- Survive in the Nether over time
+- Brew Fire Resistance potions
+requirements:
+- level: 20
+- permission: job.nether
+bonuses:
+  generic.armor: 2.0
+  generic.armor_toughness: 1.0
+skills:
+  Flame Affinity:
+    type: Passive
+    category: Defense
+    description: Gain permanent fire resistance (scales with level).
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: MAGMA_CREAM
+  Hellfire:
+    type: Active
+    category: Offensive
+    description: Attacks ignite enemies for extended duration.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 1
+    toggleable: true
+    trigger_item: BLAZE_POWDER
+    cooldown: 0
+  Wither Tolerance:
+    type: Passive
+    category: Defense
+    description: Reduced damage and duration from Wither effect.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: WITHER_SKELETON_SKULL
+  Blaze Burst:
+    type: Active
+    category: Offensive
+    description: Release a fiery explosion around the player that damages and ignites
+      nearby enemies.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: ORANGE_DYE
+    icon: FIRE_CHARGE
+    cooldown: 30
+rewards:
+  Kill Nether mobs: 25
+  Mine Nether ores: 15
+  Survive in the Nether over time: 10
+  Brew Fire Resistance potions: 20

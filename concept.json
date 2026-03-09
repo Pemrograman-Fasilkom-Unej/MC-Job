@@ -1,0 +1,494 @@
+{
+    "Beekeeper": {
+        "theme": [
+            "Sustain",
+            "Poison",
+            "Swarm Control"
+        ],
+        "xp_triggers": [
+            "Harvest honey manually",
+            "Craft beehive or bee nest",
+            "Breed bees",
+            "Bottle honey",
+            "Craft honey blocks"
+        ],
+        "skills": [
+            {
+                "name": "Honey Yield",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Increase honey bottle and honeycomb drops."
+            },
+            {
+                "name": "Hive Citizen",
+                "type": "Passive",
+                "category": "Sustain",
+                "description": "Eating honey does not consume it. Upgrade grants small regeneration after consuming honey."
+            },
+            {
+                "name": "Poison Coating",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "Right-click with honey bottle to coat weapon. Next hit applies poison."
+            },
+            {
+                "name": "Hive Guardian",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "Hitting an enemy with bow, sword, or axe spawns 3 bees that attack the target."
+            }
+        ]
+    },
+    "Breeder": {
+        "theme": [
+            "Livestock Economy",
+            "Mounted Combat"
+        ],
+        "xp_triggers": [
+            "Breed animals (Cow and Pig give more XP than Chicken)",
+            "Shear sheep",
+            "Milk cows"
+        ],
+        "skills": [
+            {
+                "name": "Stockmaster",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Increase meat, leather, and feather drops."
+            },
+            {
+                "name": "Mutation",
+                "type": "Passive",
+                "category": "Proc",
+                "description": "Chance to spawn Super Animal with increased HP and bonus drops."
+            },
+            {
+                "name": "Rider",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Jump boost and speed boost while riding any mount."
+            },
+            {
+                "name": "Stampede",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "While mounted, charge forward and knock back enemies, dealing damage."
+            }
+        ]
+    },
+    "Tamer": {
+        "theme": [
+            "Pet Commander",
+            "Companion Combat"
+        ],
+        "xp_triggers": [
+            "Tame wolf or cat",
+            "Breed wolf or cat",
+            "Heal pets"
+        ],
+        "skills": [
+            {
+                "name": "Pack Assault",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "All wolves leap toward your target and deal bonus damage."
+            },
+            {
+                "name": "Predator Bond",
+                "type": "Passive",
+                "category": "Offensive",
+                "description": "Pets deal increased damage and apply bleeding."
+            },
+            {
+                "name": "Shared Vitality",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "A portion of damage taken is shared between you and your pets."
+            },
+            {
+                "name": "Alpha Command",
+                "type": "Active",
+                "category": "Utility",
+                "description": "Heal all pets in area."
+            }
+        ]
+    },
+    "Brewer": {
+        "theme": [
+            "Alchemy",
+            "Potion Combat"
+        ],
+        "xp_triggers": [
+            "Brew potions",
+            "Extend or upgrade potions",
+            "Use splash or lingering potions",
+            "Cure zombie villager"
+        ],
+        "skills": [
+            {
+                "name": "Extra Brew",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Increase potion duration."
+            },
+            {
+                "name": "Efficient Mixture",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Automatically upgrade the potion to max tier."
+            },
+            {
+                "name": "Volatile Flask",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "Splash potions deal bonus damage."
+            },
+            {
+                "name": "Toxic Mastery",
+                "type": "Passive",
+                "category": "Offensive",
+                "description": "Poison and Wither effects last longer and deal increased damage."
+            }
+        ]
+    },
+    "Enchanter": {
+        "theme": [
+            "Arcane Power",
+            "Magic Burst"
+        ],
+        "xp_triggers": [
+            "Enchant items",
+            "Combine enchanted books",
+            "Disenchant items"
+        ],
+        "skills": [
+            {
+                "name": "Scholar",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Refund a portion of XP after enchanting."
+            },
+            {
+                "name": "Perfect Touch",
+                "type": "Passive",
+                "category": "Proc",
+                "description": "Chance to roll maximum-level enchantment."
+            },
+            {
+                "name": "Insight",
+                "type": "Passive",
+                "category": "Proc",
+                "description": "Grant random positive buff after enchanting."
+            }
+        ]
+    },
+    "Farmer": {
+        "theme": [
+            "Nature Magic",
+            "Area Control"
+        ],
+        "xp_triggers": [
+            "Harvest crops",
+            "Plant crops",
+            "Use bone meal",
+            "Breed farm animals"
+        ],
+        "skills": [
+            {
+                "name": "Agronomist",
+                "type": "Active",
+                "category": "Utility",
+                "description": "Nearby crops instantly grow to maximum stage."
+            },
+            {
+                "name": "Harvester",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Break crops in an area and auto-replant."
+            },
+            {
+                "name": "Nature Embrace",
+                "type": "Active",
+                "category": "Utility",
+                "description": "Spawn temporary 6x6 crops beneath player. Standing on farmland grants regeneration."
+            },
+            {
+                "name": "Nature Bind",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "Launch vine projectile that roots and poisons target. Consumes mana only on hit."
+            }
+        ]
+    },
+    "Smith": {
+        "theme": [
+            "Metal Mastery",
+            "Fire Resilience",
+            "Gear Enhancement"
+        ],
+        "xp_triggers": [
+            "Craft ore-based items",
+            "Repair items in anvil",
+            "Disenchant items",
+            "Smelt ores"
+        ],
+        "skills": [
+            {
+                "name": "Heavy Temper",
+                "type": "Passive",
+                "category": "Offensive",
+                "description": "Hammer and spear deal bonus armor-piercing damage."
+            },
+            {
+                "name": "Boiling Blood",
+                "type": "Passive",
+                "category": "Defense",
+                "description": "When hit by fire, gain temporary fire resistance."
+            },
+            {
+                "name": "Tempered Edge",
+                "type": "Passive",
+                "category": "Offensive",
+                "description": "Repaired weapons gain temporary bonus damage and durability."
+            },
+            {
+                "name": "Reinforced Armor",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Repaired armor gains temporary damage reduction bonus."
+            }
+        ]
+    },
+    "Hunter": {
+        "theme": [
+            "Ranged Combat",
+            "Tracking",
+            "Survival"
+        ],
+        "xp_triggers": [
+            "Kill hostile mobs",
+            "Kill passive mobs",
+            "Deal damage with bow, crossbow, or trident",
+            "Track and kill marked targets"
+        ],
+        "skills": [
+            {
+                "name": "Iron Stomach",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Rotten flesh restores additional hunger and grants regeneration."
+            },
+            {
+                "name": "Spearman",
+                "type": "Passive",
+                "category": "Offensive",
+                "description": "Increased trident or spear damage."
+            },
+            {
+                "name": "Marksman",
+                "type": "Passive",
+                "category": "Offensive",
+                "description": "Bow, crossbow, and trident deal increased damage and draw faster."
+            },
+            {
+                "name": "Hunter's Mark",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "Mark a target. Marked enemy takes increased damage from you for a duration."
+            }
+        ]
+    },
+    "Fisherman": {
+        "theme": [
+            "Water Mastery",
+            "Treasure Hunting",
+            "Ocean Combat"
+        ],
+        "xp_triggers": [
+            "Catch fish",
+            "Catch treasure",
+            "Kill drowned",
+            "Fish during rain"
+        ],
+        "skills": [
+            {
+                "name": "Angler Savant",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Increased fishing speed and higher chance to catch treasure."
+            },
+            {
+                "name": "Tide Guardian",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Gain Dolphin's Grace and Night Vision while in water."
+            },
+            {
+                "name": "Deep Pressure",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "Enemies in water move slower and take increased damage."
+            },
+            {
+                "name": "Sunken Fortune",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Chance to duplicate treasure loot from fishing."
+            }
+        ]
+    },
+    "Lumberjack": {
+        "theme": [
+            "Wood Harvesting",
+            "Axe Combat",
+            "Brutal Strength"
+        ],
+        "xp_triggers": [
+            "Chop logs",
+            "Strip logs",
+            "Craft wooden tools",
+            "Break leaves"
+        ],
+        "skills": [
+            {
+                "name": "Timber Fury",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Chance for entire tree to break instantly. Automatically replants sapling."
+            },
+            {
+                "name": "Barkskin",
+                "type": "Passive",
+                "category": "Defense",
+                "description": "Reduce incoming damage."
+            },
+            {
+                "name": "Axe Swing",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "Deal area damage in a circle and apply Weakness."
+            },
+            {
+                "name": "Berserk",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "Increase axe damage temporarily and apply Bleeding effect."
+            }
+        ]
+    },
+    "Miner": {
+        "theme": [
+            "Ore Extraction",
+            "Underground Mastery",
+            "Efficiency"
+        ],
+        "xp_triggers": [
+            "Mine ores",
+            "Smelt ores",
+            "Discover new cave areas",
+            "Break stone-type blocks"
+        ],
+        "skills": [
+            {
+                "name": "Builder",
+                "type": "Active",
+                "category": "Utility",
+                "description": "Right-click two same blocks with shovel to auto-fill area using materials from inventory."
+            },
+            {
+                "name": "Breaker",
+                "type": "Active",
+                "category": "Utility",
+                "description": "Right-click two same blocks with pickaxe to break connected blocks at durability cost."
+            },
+            {
+                "name": "Vein Master",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "Chance to mine entire ore vein instantly."
+            },
+            {
+                "name": "Stone Guard",
+                "type": "Passive",
+                "category": "Defense",
+                "description": "Gain damage resistance while underground (based on Y-level)."
+            }
+        ]
+    },
+    "Nethermancer": {
+        "theme": [
+            "Nether Survival",
+            "Fire Combat"
+        ],
+        "xp_triggers": [
+            "Kill Nether mobs",
+            "Mine Nether ores (Nether Quartz, Ancient Debris, Nether Gold)",
+            "Survive in the Nether over time",
+            "Brew Fire Resistance potions"
+        ],
+        "skills": [
+            {
+                "name": "Flame Affinity",
+                "type": "Passive",
+                "category": "Defense",
+                "description": "Gain permanent fire resistance in overworld (scales with level)."
+            },
+            {
+                "name": "Hellfire",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "Attacks ignite enemies for extended duration."
+            },
+            {
+                "name": "Wither Tolerance",
+                "type": "Passive",
+                "category": "Defense",
+                "description": "Reduced damage and duration from Wither effect."
+            },
+            {
+                "name": "Blaze Burst",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "Release a fiery explosion around the player that damages and ignites nearby enemies."
+            }
+        ]
+    },
+    "Endwalker": {
+        "theme": [
+            "End Dimension",
+            "Void Control"
+        ],
+        "xp_triggers": [
+            "Kill Endermen",
+            "Kill Ender Dragon",
+            "Use Ender Pearls",
+            "Loot End Cities"
+        ],
+        "skills": [
+            {
+                "name": "Void Step",
+                "type": "Active",
+                "category": "Utility",
+                "description": "Short-range teleport with moderate cooldown."
+            },
+            {
+                "name": "Pearl Mastery",
+                "type": "Passive",
+                "category": "Utility",
+                "description": "No damage taken from Ender Pearl teleportation."
+            },
+            {
+                "name": "Dragon Slayer",
+                "type": "Passive",
+                "category": "Offensive",
+                "description": "Increased damage against bosses and End mobs."
+            },
+            {
+                "name": "Void Corruption",
+                "type": "Active",
+                "category": "Offensive",
+                "description": "Launch void projectile that applies Slowness and Weakness."
+            }
+        ]
+    }
+}

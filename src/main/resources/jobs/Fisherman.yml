@@ -1,0 +1,58 @@
+name: Fisherman
+theme:
+- Water Mastery
+- Treasure Hunting
+- Ocean Combat
+xp_triggers:
+- Catch fish
+- Catch treasure
+- Kill drowned
+- Fish during rain
+requirements: []
+bonuses:
+  generic.luck: 1.0
+  generic.luck: 0.5
+skills:
+  Angler Savant:
+    type: Passive
+    category: Utility
+    description: Increased fishing speed and higher chance to catch treasure.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: FISHING_ROD
+  Tide Guardian:
+    type: Passive
+    category: Utility
+    description: Gain Dolphin's Grace and Night Vision while in water.
+    max_level: 5
+    points_per_level: 1
+    toggleable: true
+    trigger_item: HEART_OF_THE_SEA
+  Deep Pressure:
+    type: Active
+    category: Offensive
+    description: Enemies in water move slower and take increased damage.
+    activation_text: "Passive aura while sneaking in Water"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: TRIDENT
+    mana_cost: 15
+    cooldown: 20
+  Sunken Fortune:
+    type: Passive
+    category: Utility
+    description: Chance to duplicate treasure loot from fishing.
+    preview_text: "Chance to duplicate is {chance}%"
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: CHEST_MINECART
+    chance_per_level: 10.0
+    max_chance: 50.0
+rewards:
+  Catch fish: 20
+  Catch treasure: 100
+  Kill drowned: 15
+  Fish during rain: 30

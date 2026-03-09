@@ -1,0 +1,62 @@
+name: Lumberjack
+theme:
+- Wood Harvesting
+- Axe Combat
+- Brutal Strength
+xp_triggers:
+- Chop logs
+- Strip logs
+- Craft wooden tools
+- Break leaves
+requirements: []
+bonuses:
+  player.block_break_speed: 0.1
+  generic.armor: 1.0
+skills:
+  Timber Fury:
+    type: Passive
+    category: Utility
+    description: Chance for entire tree to break instantly. Automatically replants sapling.
+    preview_text: "Chance to trigger is {chance}%"
+    max_level: 5
+    points_per_level: 1
+    toggleable: true
+    trigger_item: OAK_SAPLING
+    chance_per_level: 20.0
+    max_chance: 100.0
+  Barkskin:
+    type: Passive
+    category: Defense
+    description: Reduce incoming damage.
+    preview_text: "+5% Damage Reduction"
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: OAK_LOG
+  Axe Swing:
+    type: Active
+    category: Offensive
+    description: Deal area damage in a circle and apply Weakness.
+    preview_text: "+Radius and +Raw Damage"
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: IRON_AXE
+    cooldown: 30
+  Berserk:
+    type: Active
+    category: Offensive
+    description: Increase axe damage temporarily and apply Bleeding effect.
+    preview_text: "+Damage & +Bleed Effect"
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: REDSTONE
+    cooldown: 60
+rewards:
+  Chop logs: 10
+  Strip logs: 5
+  Craft wooden tools: 15
+  Break leaves: 1

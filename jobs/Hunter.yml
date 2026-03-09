@@ -1,0 +1,54 @@
+name: Hunter
+theme:
+- Ranged Combat
+- Tracking
+- Survival
+xp_triggers:
+- Kill hostile mobs
+- Kill passive mobs
+- Deal damage with bow, crossbow, or trident
+- Track and kill marked targets
+requirements: []
+bonuses:
+  generic.knockback_resistance: 0.05
+  player.entity_interaction_range: 0.2
+skills:
+  Iron Stomach:
+    type: Passive
+    category: Utility
+    description: Rotten flesh restores additional hunger and grants regeneration.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: ROTTEN_FLESH
+  Spearman:
+    type: Passive
+    category: Offensive
+    description: Increased trident or spear damage.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: TRIDENT
+  Marksman:
+    type: Passive
+    category: Offensive
+    description: Bow, crossbow, and trident deal increased damage and draw faster.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: BOW
+  Hunter's Mark:
+    type: Active
+    category: Offensive
+    description: Mark a target. Marked enemy takes increased damage from you for a duration.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: SPECTRAL_ARROW
+    cooldown: 45
+rewards:
+  Kill hostile mobs: 20
+  Kill passive mobs: 5
+  Deal damage with bow, crossbow, or trident: 2
+  Track and kill marked targets: 50

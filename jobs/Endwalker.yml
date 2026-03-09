@@ -1,0 +1,57 @@
+name: Endwalker
+theme:
+- End Dimension
+- Void Control
+xp_triggers:
+- Kill Endermen
+- Kill Ender Dragon
+- Use Ender Pearls
+- Loot End Cities
+requirements:
+- level: 30
+- permission: job.end
+bonuses:
+  generic.max_health: 1.0
+skills:
+  Void Step:
+    type: Active
+    category: Utility
+    description: Short-range teleport with moderate cooldown.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: PURPLE_DYE
+    icon: ENDER_PEARL
+    cooldown: 15
+  Pearl Mastery:
+    type: Passive
+    category: Utility
+    description: No damage taken from Ender Pearl teleportation.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: CHORUS_FRUIT
+  Dragon Slayer:
+    type: Passive
+    category: Offensive
+    description: Increased damage against bosses and End mobs.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: DRAGON_HEAD
+  Void Corruption:
+    type: Active
+    category: Offensive
+    description: Launch void projectile that applies Slowness and Weakness.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: DRAGON_BREATH
+    cooldown: 20
+rewards:
+  Kill Endermen: 30
+  Kill Ender Dragon: 500
+  Use Ender Pearls: 5
+  Loot End Cities: 100

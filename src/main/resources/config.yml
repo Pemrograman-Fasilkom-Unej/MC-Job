@@ -1,0 +1,73 @@
+# General Settings for MMO-Job Feature
+level-curve:
+  base-xp: 100
+  multiplier: 1.2
+  exponential: 1.1
+  max-level: 100
+default-job: "Miner"
+
+# Experience gain formula: base-xp * (multiplier ^(level-1)) * (level ^ exponential)
+
+skill-menu:
+  title: "&eSkill Menu - %job%"
+  size: 54
+  background-material: GRAY_STAINED_GLASS_PANE
+  shortcut: SHIFT_F # Shift + F to trigger skill menu
+  shortcut-enabled: true
+
+# Skill Point Gain Settings - Make it harder!
+point-gain:
+  # Mode options: 'FIXED' or 'EVERY_X_LEVELS' or 'MILESTONE'
+  mode: EVERY_X_LEVELS
+  
+  # If mode is FIXED: Give this many points every single level
+  fixed-amount: 1
+  
+  # If mode is EVERY_X_LEVELS: Give 1 point only every interval (e.g. 1 point every 3 levels)
+  every-x-levels: 3
+  
+  # If mode is MILESTONE: Give specific points at these levels only (overrides other modes)
+  milestones:
+    10: 5
+    25: 7
+    50: 9
+    100: 13
+
+# Skill Upgrade Cost Scaling
+# High-tier skills (above Level 3) can cost more points 
+cost-scaling:
+  enabled: true
+  base-multiplier: 1.0
+  level-threshold: 3
+  cost-increase: 1 # Cost increases by 1 for every level above threshold
+
+# Party XP Sharing Configuration
+party-xp-share:
+  enabled: true
+  percentage: 0.5 # 50% of earned XP is shared
+  radius: 50 # Blocks distance within which XP is shared
+
+# Stats Scaling per Level
+# Determines how much attributes like +Damage or +Speed grow per Job Level.
+# Formula: Bonus + (Bonus * (Level - 1) * multiplier)
+stats-scaling:
+  limit-level: 25
+  bonus-multiplier-per-level: 0.375
+
+# XP Booster Configuration
+xp-booster:
+  duration-minutes: 5
+  drop-chance: 0.10
+  # Which RuneMobs rarities can drop the booster
+  rarities:
+    - "rare"
+    - "epic"
+    - "legendary"
+    - "mythic"
+  item:
+    name: "&f<&6Job XP &eBooster&f>"
+    lore:
+      - "&7Doubles all job experience"
+      - "&7gain for %duration% minutes."
+      - ""
+      - "&eRight-click to activate!"

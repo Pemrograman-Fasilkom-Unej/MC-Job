@@ -1,0 +1,53 @@
+name: Brewer
+theme:
+- Alchemy
+- Potion Combat
+xp_triggers:
+- Brew potions
+- Extend or upgrade potions
+- Use splash or lingering potions
+- Cure zombie villager
+requirements:
+- level: 10
+bonuses:
+  generic.luck: 2.0
+skills:
+  Extra Brew:
+    type: Passive
+    category: Utility
+    description: Increase potion duration.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: GLOWSTONE_DUST
+  Efficient Mixture:
+    type: Passive
+    category: Utility
+    description: Automatically upgrade the potion to max tier.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: REDSTONE
+  Volatile Flask:
+    type: Active
+    category: Offensive
+    description: Splash potions deal bonus damage.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: true
+    trigger_item: GUNPOWDER
+    cooldown: 5
+  Toxic Mastery:
+    type: Passive
+    category: Offensive
+    description: Poison and Wither effects last longer and deal increased damage.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: FERMENTED_SPIDER_EYE
+rewards:
+  Brew potions: 20
+  Extend or upgrade potions: 10
+  Use splash or lingering potions: 5
+  Cure zombie villager: 100

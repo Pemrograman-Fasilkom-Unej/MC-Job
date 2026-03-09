@@ -1,0 +1,52 @@
+name: Smith
+theme:
+- Metal Mastery
+- Fire Resilience
+- Gear Enhancement
+xp_triggers:
+- Craft ore-based items
+- Repair items in anvil
+- Disenchant items
+- Smelt ores
+requirements: []
+bonuses:
+  generic.armor: 1.0
+  generic.attack_speed: 0.1
+skills:
+  Heavy Temper:
+    type: Passive
+    category: Offensive
+    description: Spear, Sword, and Mace deal bonus armor-piercing damage.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: IRON_INGOT
+  Boiling Blood:
+    type: Passive
+    category: Defense
+    description: When hit by fire, gain temporary fire resistance.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: LAVA_BUCKET
+  Tempered Edge:
+    type: Passive
+    category: Offensive
+    description: Repaired weapons gain temporary bonus damage and durability.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: ANVIL
+  Reinforced Armor:
+    type: Passive
+    category: Utility
+    description: Repaired armor gains temporary damage reduction bonus.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: IRON_CHESTPLATE
+rewards:
+  Craft ore-based items: 15
+  Repair items in anvil: 25
+  Disenchant items: 10
+  Smelt ores: 5

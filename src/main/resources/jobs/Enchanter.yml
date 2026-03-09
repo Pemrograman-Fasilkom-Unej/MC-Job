@@ -1,0 +1,44 @@
+name: Enchanter
+theme:
+- Arcane Power
+- Magic Burst
+xp_triggers:
+- Enchant items
+- Combine enchanted books
+- Disenchant items
+requirements:
+- level: 10
+bonuses:
+  generic.luck: 3.0
+skills:
+  Scholar:
+    type: Passive
+    category: Utility
+    description: Refund a portion of XP after enchanting.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: BOOK
+  Perfect Touch:
+    type: Passive
+    category: Proc
+    description: Chance to roll maximum-level enchantment.
+    preview_text: "Chance to trigger is {chance}%"
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: LAPIS_LAZULI
+    chance_per_level: 5.0
+    max_chance: 100.0
+  Insight:
+    type: Passive
+    category: Proc
+    description: Grant random positive buff after enchanting.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: ENCHANTED_BOOK
+rewards:
+  Enchant items: 50
+  Combine enchanted books: 30
+  Disenchant items: 10

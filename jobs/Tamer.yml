@@ -1,0 +1,53 @@
+name: Tamer
+theme:
+- Pet Commander
+- Companion Combat
+xp_triggers:
+- Tame wolf or cat
+- Breed wolf or cat
+- Heal pets
+requirements:
+- level: 5
+bonuses:
+  generic.max_health: 1.0
+skills:
+  Pack Assault:
+    type: Active
+    category: Offensive
+    description: All wolves leap toward your target and deal bonus damage.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: BONE
+    cooldown: 45
+  Predator Bond:
+    type: Passive
+    category: Offensive
+    description: Pets deal increased damage and apply bleeding.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: ROTTEN_FLESH
+  Shared Vitality:
+    type: Passive
+    category: Utility
+    description: A portion of damage taken is shared between you and your pets.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: APPLE
+  Alpha Command:
+    type: Active
+    category: Utility
+    description: Heal all pets in area.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: GOLDEN_APPLE
+    cooldown: 60
+rewards:
+  Tame wolf or cat: 50
+  Breed wolf or cat: 20
+  Heal pets: 5

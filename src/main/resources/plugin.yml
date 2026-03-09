@@ -1,0 +1,16 @@
+name: Job
+version: 1.0.0
+main: com.darkun7.job.JobPlugin
+api-version: 1.21
+commands:
+  job:
+    description: Main command for job features.
+    usage: /job
+  skill:
+    description: Shortcut to open the job skill menu.
+    usage: /skill
+    aliases: [skills]
+permissions:
+  job.admin:
+    description: Access to administrative job commands.
+    default: op

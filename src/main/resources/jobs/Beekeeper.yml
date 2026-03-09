@@ -1,0 +1,60 @@
+name: Beekeeper
+theme:
+- Sustain
+- Poison
+- Swarm Control
+xp_triggers:
+- Harvest honey manually
+- Craft beehive or bee nest
+- Breed bees
+- Bottle honey
+- Craft honey blocks
+requirements: []
+bonuses:
+  generic.max_health: 2.0
+skills:
+  Honey Yield:
+    type: Passive
+    category: Utility
+    description: Increase honey bottle and honeycomb drops.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: HONEYCOMB
+  Hive Citizen:
+    type: Passive
+    category: Sustain
+    description: Eating honey does not consume it. Upgrade grants small regeneration
+      after consuming honey.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: HONEY_BOTTLE
+  Poison Coating:
+    type: Active
+    category: Offensive
+    description: Right-click with honey bottle to coat weapon. Next hit applies poison.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 1
+    toggleable: true
+    trigger_item: GLASS_BOTTLE
+    cooldown: 10
+  Hive Guardian:
+    type: Active
+    category: Offensive
+    description: Hitting an enemy with bow, sword, or axe spawns 3 bees that attack
+      the target.
+    activation_text: "Passive chance on Weapon Hit"
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: BEE_SPAWN_EGG
+    preview_text: "Chance to trigger is {chance}%"
+    cooldown: 30
+    chance_per_level: 20.0
+    max_chance: 100.0
+rewards:
+  Harvest honey manually: 15
+  Bottle honey: 5
+  Breed bees: 20
