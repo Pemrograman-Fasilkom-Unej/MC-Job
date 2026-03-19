@@ -85,7 +85,9 @@ public class ExperienceManager {
         } else if (type == org.bukkit.Material.NETHER_QUARTZ_ORE || type == org.bukkit.Material.ANCIENT_DEBRIS
                 || type == org.bukkit.Material.NETHER_GOLD_ORE) {
             awardXP(player, "Mine Nether ores");
-        } else if (type.name().contains("LOG") || type.name().contains("WOOD")) {
+        } else if (type.name().contains("LOG") || type.name().contains("WOOD") || 
+                   type.name().contains("CRIMSON_STEM") || type.name().contains("WARPED_STEM") || 
+                   type.name().contains("CRIMSON_HYPHAE") || type.name().contains("WARPED_HYPHAE")) {
             awardXP(player, "Chop logs");
         } else if (type.name().contains("ORE") || type == org.bukkit.Material.COAL_ORE
                 || type == org.bukkit.Material.IRON_ORE
@@ -97,8 +99,16 @@ public class ExperienceManager {
                 || type == org.bukkit.Material.ANDESITE
                 || type == org.bukkit.Material.DIORITE || type == org.bukkit.Material.GRANITE) {
             awardXP(player, "Break stone-type blocks");
-        } else if (type.name().contains("LEAVES")) {
+        } else if (type.name().contains("LEAVES") || type.name().contains("WART_BLOCK") || type == org.bukkit.Material.SHROOMLIGHT) {
             awardXP(player, "Break leaves");
+        } else if (type == org.bukkit.Material.ICE) {
+            awardXP(player, "Break Ice");
+        } else if (type == org.bukkit.Material.PACKED_ICE) {
+            awardXP(player, "Break Packed Ice");
+        } else if (type == org.bukkit.Material.BLUE_ICE) {
+            awardXP(player, "Break Blue Ice");
+        } else if (type == org.bukkit.Material.SNOW || type == org.bukkit.Material.SNOW_BLOCK) {
+            awardXP(player, "Shovel Snow");
         }
     }
 
@@ -197,9 +207,8 @@ public class ExperienceManager {
 
     public double getRequiredXp(int level) {
         int baseExp = plugin.getConfig().getInt("level-curve.base-xp", 100);
-        double multiplier = plugin.getConfig().getDouble("level-curve.multiplier", 1.5);
-        double exponential = plugin.getConfig().getDouble("level-curve.exponential", 1.2);
-
+        double multiplier = plugin.getConfig().getDouble("level-curve.multiplier", 1.05);
+        double exponential = plugin.getConfig().getDouble("level-curve.exponential", 2.0);
         return baseExp * Math.pow(multiplier, level - 1) * Math.pow(level, exponential);
     }
 

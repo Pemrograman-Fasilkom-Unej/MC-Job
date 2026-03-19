@@ -35,6 +35,10 @@ public class BrewerListener implements Listener {
         this.plugin = plugin;
     }
 
+    private void addXPToJob(Player player, String trigger) {
+        plugin.getExperienceManager().awardXP(player, trigger);
+    }
+
     @EventHandler
     public void onBrewOpen(InventoryClickEvent event) {
         if (event.getInventory().getType() == InventoryType.BREWING) {
@@ -45,6 +49,19 @@ public class BrewerListener implements Listener {
     @EventHandler
     public void onBrew(BrewEvent event) {
         Location loc = event.getBlock().getLocation();
+
+        // Award XP for Brewing
+        if (lastBrewer.containsKey(loc)) {
+            Player player = Bukkit.getPlayer(lastBrewer.get(loc));
+            if (player != null) {
+                addXPToJob(player, "Brew potions");
+
+                // Nethermancer - Brew Fire Resistance potions
+                if (event.getContents().getIngredient() != null && event.getContents().getIngredient().getType() == Material.MAGMA_CREAM) {
+                    addXPToJob(player, "Brew Fire Resistance potions");
+                }
+            }
+        }
 
         // 1. Extra Brew (from JobEnvironmentListener)
         handleExtraBrew(event, loc);
@@ -93,6 +110,7 @@ public class BrewerListener implements Listener {
                     }
                     finalBrewer.sendMessage(ChatColor.LIGHT_PURPLE + "[Extra Brew] Potions last "
                             + (int) ((multiplier - 1) * 100) + "% longer!");
+                    addXPToJob(finalBrewer, "Extend or upgrade potions");
                 }
             }.runTaskLater(plugin, 1L);
         }
@@ -141,6 +159,7 @@ public class BrewerListener implements Listener {
         if (upgraded) {
             player.sendMessage(ChatColor.LIGHT_PURPLE + "[Efficient Mixture] " + ChatColor.AQUA
                     + "Your potion was upgraded to a higher tier!");
+            addXPToJob(player, "Extend or upgrade potions");
         }
     }
 
@@ -211,6 +230,7 @@ public class BrewerListener implements Listener {
                         }
                     }
                 }
+                addXPToJob(player, "Use splash or lingering potions");
             }
         }
     }

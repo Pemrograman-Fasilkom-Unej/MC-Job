@@ -10,8 +10,8 @@ xp_triggers:
 - Smelt ores
 requirements: []
 bonuses:
-  generic.armor: 1.0
-  generic.attack_speed: 0.1
+  armor: 1.0
+  attack_speed: 0.1
 skills:
   Heavy Temper:
     type: Passive
@@ -21,14 +21,6 @@ skills:
     points_per_level: 1
     toggleable: false
     trigger_item: IRON_INGOT
-  Boiling Blood:
-    type: Passive
-    category: Defense
-    description: When hit by fire, gain temporary fire resistance.
-    max_level: 5
-    points_per_level: 1
-    toggleable: false
-    trigger_item: LAVA_BUCKET
   Tempered Edge:
     type: Passive
     category: Offensive
@@ -37,14 +29,24 @@ skills:
     points_per_level: 1
     toggleable: false
     trigger_item: ANVIL
-  Reinforced Armor:
-    type: Passive
+  Spectral Weapon:
+    type: Active
     category: Utility
-    description: Repaired armor gains temporary damage reduction bonus.
+    description: When activated and hit target, chance to spawn invisible spectral weapons to attack.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
     max_level: 5
     points_per_level: 1
     toggleable: false
-    trigger_item: IRON_CHESTPLATE
+    trigger_item: IRON_SWORD
+    cooldown: 45
+  Boiling Blood:
+    type: Passive
+    category: Defense
+    description: When hit by fire, gain temporary fire resistance.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: LAVA_BUCKET
 rewards:
   Craft ore-based items: 15
   Repair items in anvil: 25

@@ -5,6 +5,8 @@ import com.darkun7.job.models.Job;
 import com.darkun7.job.models.Skill;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -112,7 +114,7 @@ public class JobManager {
         String[] defaultJobs = {
                 "Beekeeper", "Breeder", "Tamer", "Brewer", "Enchanter",
                 "Farmer", "Smith", "Hunter", "Fisherman", "Lumberjack",
-                "Miner", "Nethermancer", "Endwalker"
+                "Miner", "Nethermancer", "Endwalker", "Journeyman", "Engineer", "Culinary", "Lightworker", "IceLogger"
         };
 
         for (String jobName : defaultJobs) {
@@ -202,8 +204,23 @@ public class JobManager {
 
         for (java.util.Map.Entry<String, Double> entry : job.getBonuses().entrySet()) {
             try {
-                org.bukkit.attribute.Attribute attr = org.bukkit.attribute.Attribute
-                        .valueOf(entry.getKey().toUpperCase().replace(".", "_"));
+                String key = entry.getKey().toLowerCase();
+                org.bukkit.attribute.Attribute attr = Registry.ATTRIBUTE.get(NamespacedKey.minecraft(key));
+                
+                // Fallback for 1.21+ (strip generic. and player. prefixes)
+                if (attr == null) {
+                    String coreKey = key;
+                    if (key.startsWith("generic.")) coreKey = key.substring(8);
+                    else if (key.startsWith("player.")) coreKey = key.substring(7);
+                    else if (key.startsWith("zombie.")) coreKey = key.substring(7);
+                    
+                    attr = Registry.ATTRIBUTE.get(NamespacedKey.minecraft(coreKey));
+                }
+
+                if (attr == null) {
+                    plugin.getLogger().warning("Unknown attribute: " + key);
+                    continue;
+                }
                 org.bukkit.attribute.AttributeInstance instance = player.getAttribute(attr);
                 if (instance != null) {
                     double baseBonus = entry.getValue();
@@ -224,11 +241,24 @@ public class JobManager {
 
         for (java.util.Map.Entry<String, Double> entry : job.getBonuses().entrySet()) {
             try {
-                org.bukkit.attribute.Attribute attr = org.bukkit.attribute.Attribute
-                        .valueOf(entry.getKey().toUpperCase().replace(".", "_"));
-                org.bukkit.attribute.AttributeInstance instance = player.getAttribute(attr);
-                if (instance != null) {
-                    instance.setBaseValue(instance.getDefaultValue());
+                String key = entry.getKey().toLowerCase();
+                org.bukkit.attribute.Attribute attr = Registry.ATTRIBUTE.get(NamespacedKey.minecraft(key));
+                
+                // Fallback for 1.21+
+                if (attr == null) {
+                    String coreKey = key;
+                    if (key.startsWith("generic.")) coreKey = key.substring(8);
+                    else if (key.startsWith("player.")) coreKey = key.substring(7);
+                    else if (key.startsWith("zombie.")) coreKey = key.substring(7);
+                    
+                    attr = Registry.ATTRIBUTE.get(NamespacedKey.minecraft(coreKey));
+                }
+
+                if (attr != null) {
+                    org.bukkit.attribute.AttributeInstance instance = player.getAttribute(attr);
+                    if (instance != null) {
+                        instance.setBaseValue(instance.getDefaultValue());
+                    }
                 }
             } catch (Exception e) {
                 // Ignore

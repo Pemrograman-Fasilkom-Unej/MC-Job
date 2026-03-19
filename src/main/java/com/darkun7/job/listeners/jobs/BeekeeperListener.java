@@ -2,6 +2,7 @@ package com.darkun7.job.listeners.jobs;
 
 import com.darkun7.job.JobPlugin;
 import com.darkun7.job.models.PlayerJobData;
+import com.darkun7.job.utils.SkillExecutor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Bee;
@@ -57,6 +58,10 @@ public class BeekeeperListener implements Listener {
             double chance = Math.min(maxChance, data.getSkillLevel("Hive Guardian") * chancePerLevel);
 
             if (java.util.concurrent.ThreadLocalRandom.current().nextDouble() < chance) {
+                if (SkillExecutor.isCooldownActive(player, "Hive Guardian")) {
+                    return;
+                }
+                SkillExecutor.updateCooldown(player, "Hive Guardian");
                 for (int i = 0; i < 3; i++) {
                     Bee bee = player.getWorld().spawn(player.getLocation(), Bee.class);
                     bee.setTarget((LivingEntity) event.getEntity());

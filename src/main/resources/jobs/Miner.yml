@@ -10,19 +10,9 @@ xp_triggers:
 - Break stone-type blocks
 requirements: []
 bonuses:
-  generic.armor: 1.0
-  generic.max_health: 2.0
+  armor: 1.0
+  max_health: 2.0
 skills:
-  Builder:
-    type: Active
-    category: Utility
-    description: Right-click two same blocks with shovel to auto-fill area using materials from inventory.
-    activation_text: "Trigger via Skill Hotbar (Shift+F)"
-    max_level: 5
-    points_per_level: 2
-    toggleable: false
-    trigger_item: IRON_SHOVEL
-    cooldown: 5
   Breaker:
     type: Active
     category: Utility
@@ -32,6 +22,16 @@ skills:
     points_per_level: 2
     toggleable: false
     trigger_item: IRON_PICKAXE
+    cooldown: 5
+  Builder:
+    type: Active
+    category: Utility
+    description: Right-click two same blocks with shovel to auto-fill area using materials from inventory.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: IRON_SHOVEL
     cooldown: 5
   Vein Master:
     type: Passive

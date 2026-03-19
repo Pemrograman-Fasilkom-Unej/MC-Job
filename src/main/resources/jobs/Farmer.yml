@@ -9,7 +9,7 @@ xp_triggers:
 - Breed farm animals
 requirements: []
 bonuses:
-  generic.luck: 1.0
+  luck: 1.0
 skills:
   Agronomist:
     type: Active

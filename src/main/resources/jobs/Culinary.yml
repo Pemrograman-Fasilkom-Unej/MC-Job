@@ -1,0 +1,62 @@
+name: Culinary
+theme:
+- Food
+- Farming
+- Livestock
+xp_triggers:
+- Breaking sugar cane
+- Craft sugar
+- Kill Chicken
+- Kill Sheep
+- Kill Cow
+- Kill Pig
+- Cook food
+requirements: []
+bonuses:
+  luck: 0.5
+  max_health: 1.0
+skills:
+  Sugar rush:
+    type: Active
+    category: Utility
+    description: Gain jump boost and speed boost. Duration increases with level.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: SUGAR
+    cooldown: 60
+  Tenderizer:
+    type: Passive
+    category: Combat
+    description: Hitting an enemy has a chance to apply Weakness or Slowness.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: GOLDEN_AXE
+  Seasoning powder:
+    type: Active
+    category: Utility
+    description: On hit, spread particles and apply Blindness/Nausea. Hit cows to transform them into Mooshrooms.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 3
+    points_per_level: 2
+    toggleable: true
+    trigger_item: GLOWSTONE_DUST
+    cooldown: 30
+  Fresh Ingredients:
+    type: Passive
+    category: Utility
+    description: Eating food has a chance to grant extra saturation and regeneration.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: APPLE
+rewards:
+  Breaking sugar cane: 2
+  Craft sugar: 2
+  Kill Chicken: 8
+  Kill Sheep: 10
+  Kill Cow: 12
+  Kill Pig: 10
+  Cook food: 5

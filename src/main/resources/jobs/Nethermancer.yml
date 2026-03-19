@@ -7,19 +7,17 @@ xp_triggers:
 - Mine Nether ores
 - Survive in the Nether over time
 - Brew Fire Resistance potions
-requirements:
-- level: 20
-- permission: job.nether
+requirements: []
 bonuses:
-  generic.armor: 2.0
-  generic.armor_toughness: 1.0
+  armor: 2.0
+  armor_toughness: 1.0
 skills:
   Flame Affinity:
     type: Passive
     category: Defense
-    description: Gain permanent fire resistance (scales with level).
-    max_level: 5
-    points_per_level: 1
+    description: Gain fire resistance while in the Nether.
+    max_level: 1
+    points_per_level: 2
     toggleable: false
     trigger_item: MAGMA_CREAM
   Hellfire:
@@ -55,5 +53,5 @@ skills:
 rewards:
   Kill Nether mobs: 25
   Mine Nether ores: 15
-  Survive in the Nether over time: 10
-  Brew Fire Resistance potions: 20
+  Survive in the Nether over time: 5
+  Brew Fire Resistance potions: 100

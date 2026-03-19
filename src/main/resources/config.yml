@@ -1,8 +1,8 @@
 # General Settings for MMO-Job Feature
 level-curve:
   base-xp: 100
-  multiplier: 1.2
-  exponential: 1.1
+  multiplier: 1.05
+  exponential: 2.0
   max-level: 100
 default-job: "Miner"
 

@@ -6,17 +6,26 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import com.darkun7.job.util.PartyHook;
+import org.bukkit.World;
+import org.bukkit.Bukkit;
+import org.bukkit.generator.structure.Structure;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,31 +47,50 @@ public class SkillExecutor {
     private static final Map<UUID, Long> packAssaultCooldown = new HashMap<>();
     private static final Map<UUID, Long> alphaCommandCooldown = new HashMap<>();
     private static final Map<UUID, Long> voidCorruptionCooldown = new HashMap<>();
+    private static final Map<UUID, Long> escapeRopeCooldown = new HashMap<>();
+    private static final Map<UUID, Long> ruinRadarCooldown = new HashMap<>();
+    private static final Map<UUID, Long> pocketStationCooldown = new HashMap<>();
+    private static final Map<UUID, Long> weatherControlCooldown = new HashMap<>();
+    private static final Map<UUID, Long> sugarRushCooldown = new HashMap<>();
+    private static final Map<UUID, Long> seasoningPowderCooldown = new HashMap<>();
+    private static final Map<UUID, Long> flagBearerCooldown = new HashMap<>();
+    private static final Map<UUID, Long> temporaryCampCooldown = new HashMap<>();
+    private static final Map<UUID, Long> hiveGuardianCooldown = new HashMap<>();
+    private static final Map<UUID, Long> spectralWeaponCooldown = new HashMap<>();
+    private static final Map<UUID, Long> machinationCooldown = new HashMap<>();
+    private static final Map<UUID, Long> fireBallCooldown = new HashMap<>();
 
     // State maps
     public static final Map<UUID, Boolean> hellfireActive = new HashMap<>();
     public static final Map<UUID, Long> berserkExpiry = new HashMap<>();
 
     public static boolean canBeActivatedDirectly(String skillName) {
-        switch (skillName) {
-            case "Agronomist":
-            case "Nature Embrace":
-            case "Nature Bind":
-            case "Blaze Burst":
-            case "Hellfire":
-            case "Void Step":
-            case "Void Corruption":
-            case "Axe Swing":
-            case "Berserk":
-            case "Pack Assault":
-            case "Alpha Command":
-            case "Hunter's Mark":
-            case "Deep Pressure":
-            case "Volatile Flask":
-            case "Stampede":
-            case "Poison Coating":
-            case "Builder":
-            case "Breaker":
+        switch (skillName.toLowerCase()) {
+            case "agronomist":
+            case "nature's embrace":
+            case "nature's bind":
+            case "blaze burst":
+            case "void step":
+            case "axe swing":
+            case "berserk":
+            case "pack assault":
+            case "alpha command":
+            case "hunter's mark":
+            case "deep pressure":
+            case "volatile flask":
+            case "stampede":
+            case "poison coating":
+            case "builder":
+            case "breaker":
+            case "escape rope":
+            case "ruin radar":
+            case "pocket station":
+            case "weather control":
+            case "sugar rush":
+            case "seasoning powder":
+            case "flag bearer":
+            case "temporary camp":
+            case "fire ball":
                 return true;
             default:
                 return false;
@@ -77,63 +105,81 @@ public class SkillExecutor {
 
         long now = System.currentTimeMillis();
 
-        switch (skillName) {
-            case "Agronomist":
-                executeAgronomist(player, level, now);
+        switch (skillName.toLowerCase()) {
+            case "agronomist":
+                executeAgronomist(player, level, now, plugin);
                 break;
-            case "Nature Embrace":
+            case "nature's embrace":
                 executeNatureEmbrace(player, level, now, plugin);
                 break;
-            case "Nature Bind":
+            case "nature's bind":
                 executeNatureBind(player, level, now, plugin);
                 break;
-            case "Blaze Burst":
-                executeBlazeBurst(player, level, now);
+            case "blaze burst":
+                executeBlazeBurst(player, level, now, plugin);
                 break;
-            case "Hellfire":
-                boolean current = hellfireActive.getOrDefault(player.getUniqueId(), false);
-                hellfireActive.put(player.getUniqueId(), !current);
-                player.sendMessage(
-                        ChatColor.GOLD + "[Hellfire] " + (!current ? ChatColor.GREEN + "ON" : ChatColor.RED + "OFF"));
+            case "void step":
+                executeVoidStep(player, level, now, plugin);
                 break;
-            case "Void Step":
-                executeVoidStep(player, level, now);
+            case "axe swing":
+                executeAxeSwing(player, level, plugin);
                 break;
-            case "Void Corruption":
-                executeVoidCorruption(player, level, now);
+            case "berserk":
+                executeBerserk(player, level, plugin);
                 break;
-            case "Axe Swing":
-                executeAxeSwing(player, level, now);
+            case "pack assault":
+                executePackAssault(player, level, plugin);
                 break;
-            case "Berserk":
-                executeBerserk(player, level, now);
+            case "alpha command":
+                executeAlphaCommand(player, level, plugin);
                 break;
-            case "Pack Assault":
-                executePackAssault(player, level, now, plugin);
+            case "hunter's mark":
+                executeHuntersMark(player, level, plugin);
                 break;
-            case "Alpha Command":
-                executeAlphaCommand(player, level, now, plugin);
+            case "deep pressure":
+                executeDeepPressure(player, level, plugin);
                 break;
-            case "Hunter's Mark":
-                executeHunterMark(player, level, now);
+            case "volatile flask":
+                executeVolatileFlask(player, level, plugin);
                 break;
-            case "Deep Pressure":
-                executeDeepPressure(player, level, now);
+            case "stampede":
+                executeStampede(player, level, plugin);
                 break;
-            case "Volatile Flask":
-                executeVolatileFlask(player, level, now, plugin);
+            case "poison coating":
+                executePoisonCoating(player, plugin);
                 break;
-            case "Stampede":
-                executeStampede(player, level, now);
-                break;
-            case "Poison Coating":
-                executePoisonCoating(player, level, plugin);
-                break;
-            case "Builder":
+            case "builder":
                 executeBuilder(player, level, plugin);
                 break;
-            case "Breaker":
+            case "breaker":
                 executeBreaker(player, level, plugin);
+                break;
+            case "escape rope":
+                executeEscapeRope(player, level, plugin);
+                break;
+            case "ruin radar":
+                executeRuinRadar(player, level, plugin);
+                break;
+            case "pocket station":
+                executePocketStation(player, level, plugin);
+                break;
+            case "weather control":
+                executeWeatherControl(player, level, now, plugin);
+                break;
+            case "sugar rush":
+                executeSugarRush(player, level, now, plugin);
+                break;
+            case "seasoning powder":
+                executeSeasoningPowder(player, plugin);
+                break;
+            case "flag bearer":
+                executeFlagBearer(player, level, now, plugin);
+                break;
+            case "temporary camp":
+                executeTemporaryCamp(player, level, now, plugin);
+                break;
+            case "fire ball":
+                executeFireBall(player, level, now, plugin);
                 break;
             default:
                 player.sendMessage(ChatColor.RED + "This skill cannot be activated directly.");
@@ -141,7 +187,7 @@ public class SkillExecutor {
         }
     }
 
-    private static void executeAgronomist(Player player, int level, long now) {
+    private static void executeAgronomist(Player player, int level, long now, JobPlugin plugin) {
         long lastUsed = agronomistCooldown.getOrDefault(player.getUniqueId(), 0L);
         if (now - lastUsed < 60000L) {
             long remaining = 60 - (now - lastUsed) / 1000;
@@ -281,7 +327,7 @@ public class SkillExecutor {
         }
     }
 
-    private static void executeBlazeBurst(Player player, int level, long now) {
+    private static void executeBlazeBurst(Player player, int level, long now, JobPlugin plugin) {
         long lastUsed = blazeBurstCooldown.getOrDefault(player.getUniqueId(), 0L);
         if (now - lastUsed < 30000L) {
             long remaining = (30000L - (now - lastUsed)) / 1000L;
@@ -300,7 +346,7 @@ public class SkillExecutor {
         player.sendMessage(ChatColor.GOLD + "[Blaze Burst] Inferno released!");
     }
 
-    private static void executeVoidStep(Player player, int level, long now) {
+    private static void executeVoidStep(Player player, int level, long now, JobPlugin plugin) {
         long lastUsed = voidStepCooldown.getOrDefault(player.getUniqueId(), 0L);
         int cdSec = Math.max(5, 15 - level * 2);
         if (now - lastUsed < cdSec * 1000L) {
@@ -337,7 +383,8 @@ public class SkillExecutor {
         }
     }
 
-    private static void executeAxeSwing(Player player, int level, long now) {
+    private static void executeAxeSwing(Player player, int level, JobPlugin plugin) {
+        long now = System.currentTimeMillis();
         long lastUsed = axeSwingCooldown.getOrDefault(player.getUniqueId(), 0L);
         int cdSec = Math.max(2, 10 - level);
         if (now - lastUsed < cdSec * 1000L) {
@@ -356,7 +403,8 @@ public class SkillExecutor {
         player.sendMessage(ChatColor.GOLD + "[Axe Swing] Unleashed!");
     }
 
-    private static void executeBerserk(Player player, int level, long now) {
+    private static void executeBerserk(Player player, int level, JobPlugin plugin) {
+        long now = System.currentTimeMillis();
         long expiry = berserkExpiry.getOrDefault(player.getUniqueId(), 0L);
         if (now < expiry) {
             player.sendMessage(ChatColor.RED + "Berserk already active!");
@@ -368,10 +416,11 @@ public class SkillExecutor {
         player.sendMessage(ChatColor.RED + "[Berserk] RAGE activated for " + duration + "s!");
     }
 
-    private static void executePackAssault(Player player, int level, long now, JobPlugin plugin) {
+    private static void executePackAssault(Player player, int level, JobPlugin plugin) {
+        long now = System.currentTimeMillis();
         long lastUsed = packAssaultCooldown.getOrDefault(player.getUniqueId(), 0L);
-        if (now - lastUsed < 30000L) {
-            long remaining = (30000L - (now - lastUsed)) / 1000L;
+        if (now - lastUsed < 45000L) {
+            long remaining = (45000L - (now - lastUsed)) / 1000L;
             player.sendMessage(ChatColor.RED + "Pack Assault on cooldown! " + remaining + "s remaining.");
             return;
         }
@@ -400,7 +449,8 @@ public class SkillExecutor {
         }
     }
 
-    private static void executeAlphaCommand(Player player, int level, long now, JobPlugin plugin) {
+    private static void executeAlphaCommand(Player player, int level, JobPlugin plugin) {
+        long now = System.currentTimeMillis();
         long lastUsed = alphaCommandCooldown.getOrDefault(player.getUniqueId(), 0L);
         if (now - lastUsed < 60000L) {
             long remaining = (60000L - (now - lastUsed)) / 1000L;
@@ -422,7 +472,8 @@ public class SkillExecutor {
         player.sendMessage(ChatColor.AQUA + "[Alpha Command] Empowered pets for " + duration + "s!");
     }
 
-    private static void executeHunterMark(Player player, int level, long now) {
+    private static void executeHuntersMark(Player player, int level, JobPlugin plugin) {
+        long now = System.currentTimeMillis();
         long lastUsed = hunterMarkCooldown.getOrDefault(player.getUniqueId(), 0L);
         if (now - lastUsed < 30000L) {
             long remaining = (30000L - (now - lastUsed)) / 1000L;
@@ -440,7 +491,8 @@ public class SkillExecutor {
         }
     }
 
-    private static void executeDeepPressure(Player player, int level, long now) {
+    private static void executeDeepPressure(Player player, int level, JobPlugin plugin) {
+        long now = System.currentTimeMillis();
         long lastUsed = deepPressureCooldown.getOrDefault(player.getUniqueId(), 0L);
         if (now - lastUsed < 45000L) {
             long remaining = (45000L - (now - lastUsed)) / 1000L;
@@ -458,7 +510,8 @@ public class SkillExecutor {
         }
     }
 
-    private static void executeVolatileFlask(Player player, int level, long now, JobPlugin plugin) {
+    private static void executeVolatileFlask(Player player, int level, JobPlugin plugin) {
+        long now = System.currentTimeMillis();
         long lastUsed = volatileFlaskCooldown.getOrDefault(player.getUniqueId(), 0L);
         if (now - lastUsed < 25000L) {
             long remaining = (25000L - (now - lastUsed)) / 1000L;
@@ -472,7 +525,8 @@ public class SkillExecutor {
         player.sendMessage(ChatColor.LIGHT_PURPLE + "[Volatile Flask] Tossed!");
     }
 
-    private static void executeStampede(Player player, int level, long now) {
+    private static void executeStampede(Player player, int level, JobPlugin plugin) {
+        long now = System.currentTimeMillis();
         if (!player.isInsideVehicle()) {
             player.sendMessage(ChatColor.RED + "You must be riding a vehicle (horse, pig, etc) to use Stampede!");
             return;
@@ -503,7 +557,7 @@ public class SkillExecutor {
         player.sendMessage(ChatColor.GOLD + "[Stampede] CHARGE!");
     }
 
-    private static void executePoisonCoating(Player player, int level, JobPlugin plugin) {
+    private static void executePoisonCoating(Player player, JobPlugin plugin) {
         PlayerJobData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
         boolean current = data.isToggledOn("Poison Coating");
         data.setToggledOn("Poison Coating", !current);
@@ -522,6 +576,301 @@ public class SkillExecutor {
         player.sendMessage(ChatColor.YELLOW + "[Breaker] Active. Right-click two blocks to break the area.");
     }
 
+    private static void executeSpectralWeapon(Player player, int level, JobPlugin plugin) {
+        PlayerJobData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+        boolean current = data.isToggledOn("Spectral Weapon");
+        data.setToggledOn("Spectral Weapon", !current);
+        player.sendMessage(ChatColor.AQUA + "[Spectral Weapon] "
+                + (!current ? ChatColor.GREEN + "ACTIVE (Next hit summons spectral weapons)"
+                        : ChatColor.RED + "REMOVED"));
+    }
+
+    private static void executeEscapeRope(Player player, int level, JobPlugin plugin) {
+        long now = System.currentTimeMillis();
+        long lastUsed = escapeRopeCooldown.getOrDefault(player.getUniqueId(), 0L);
+        if (now - lastUsed < 60000L) {
+            long remaining = 60 - (now - lastUsed) / 1000;
+            player.sendMessage(ChatColor.RED + "Escape Rope on cooldown! " + remaining + "s remaining.");
+            return;
+        }
+
+        Location loc = player.getLocation();
+        boolean isNether = loc.getWorld().getEnvironment() == org.bukkit.World.Environment.NETHER;
+        int maxHeight = isNether ? 125 : loc.getWorld().getMaxHeight() - 2;
+
+        boolean found = false;
+        for (int y = loc.getBlockY() + 2; y < maxHeight; y++) {
+            Block b1 = loc.getWorld().getBlockAt(loc.getBlockX(), y, loc.getBlockZ());
+            Block b2 = loc.getWorld().getBlockAt(loc.getBlockX(), y + 1, loc.getBlockZ());
+            if (b1.getType().isAir() && b2.getType().isAir() && b1.getRelative(0, -1, 0).getType().isSolid()) {
+                Location target = b1.getLocation().add(0.5, 0, 0.5);
+                target.setYaw(loc.getYaw());
+                target.setPitch(loc.getPitch());
+                player.teleport(target);
+                player.getWorld().spawnParticle(Particle.CLOUD, loc, 20, 0.2, 0.2, 0.2, 0.1);
+                player.getWorld().spawnParticle(Particle.CLOUD, target, 20, 0.2, 0.2, 0.2, 0.1);
+                player.sendMessage(ChatColor.AQUA + "[Escape Rope] Teleported to the surface!");
+                escapeRopeCooldown.put(player.getUniqueId(), now);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            player.sendMessage(ChatColor.RED + "No safe surface found above you!");
+        }
+    }
+
+    private static void executeRuinRadar(Player player, int level, JobPlugin plugin) {
+        long lastUsed = ruinRadarCooldown.getOrDefault(player.getUniqueId(), 0L);
+        long now = System.currentTimeMillis();
+        if (now - lastUsed < 30000L) {
+            long remaining = 30 - (now - lastUsed) / 1000;
+            player.sendMessage(ChatColor.RED + "Ruin Radar on cooldown! " + remaining + "s remaining.");
+            return;
+        }
+        com.darkun7.job.gui.JourneymanSkillGUI.openRuinRadarMenu(player, level);
+    }
+
+    public static void startStructureRadar(Player player, String structureId, JobPlugin plugin) {
+        Structure type = getStructureById(structureId);
+        if (type == null) {
+            player.sendMessage(ChatColor.RED + "Unknown structure type!");
+            return;
+        }
+
+        org.bukkit.util.StructureSearchResult result = player.getWorld().locateNearestStructure(player.getLocation(),
+                type, 2000, false);
+        if (result == null || result.getLocation() == null) {
+            player.sendMessage(ChatColor.RED + "No " + structureId + " found within 2000 blocks!");
+            return;
+        }
+
+        ruinRadarCooldown.put(player.getUniqueId(), System.currentTimeMillis());
+        Location target = result.getLocation();
+        player.sendMessage(ChatColor.AQUA + "[Ruin Radar] Tracking nearest " + structureId + "...");
+
+        new BukkitRunnable() {
+            int ticks = 0;
+
+            @Override
+            public void run() {
+                if (!player.isOnline() || ticks > 30 * 20) { // 30 seconds max
+                    cancel();
+                    return;
+                }
+                ticks += 20;
+                Location pLoc = player.getEyeLocation();
+                Vector dir = target.clone().subtract(pLoc).toVector().normalize();
+                for (double d = 1; d <= 3; d += 0.5) {
+                    Location part = pLoc.clone().add(dir.clone().multiply(d));
+                    player.spawnParticle(Particle.DUST, part, 1, new Particle.DustOptions(org.bukkit.Color.RED, 1.0f));
+                }
+            }
+        }.runTaskTimer(plugin, 0L, 20L);
+    }
+
+    private static Structure getStructureById(String id) {
+        switch (id.toLowerCase()) {
+            case "shipwreck":
+                return Structure.SHIPWRECK;
+            case "desert_pyramid":
+                return Structure.DESERT_PYRAMID;
+            case "trail_ruins":
+                return Structure.TRAIL_RUINS;
+            case "jungle_pyramid":
+                return Structure.JUNGLE_PYRAMID;
+            case "igloo":
+                return Structure.IGLOO;
+            case "pillager_outpost":
+                return Structure.PILLAGER_OUTPOST;
+            case "bastion_remnant":
+                return Structure.BASTION_REMNANT;
+            case "fortress":
+                return Structure.FORTRESS;
+            case "monument":
+                return Structure.MONUMENT;
+            case "mansion":
+                return Structure.MANSION;
+            case "ancient_city":
+                return Structure.ANCIENT_CITY;
+            case "stronghold":
+                return Structure.STRONGHOLD;
+            default:
+                return null;
+        }
+    }
+
+    private static void executePocketStation(Player player, int level, JobPlugin plugin) {
+        com.darkun7.job.gui.JourneymanSkillGUI.openPocketStationMenu(player, level);
+    }
+
+    private static void executeWeatherControl(Player player, int level, long now, JobPlugin plugin) {
+        long lastUsed = weatherControlCooldown.getOrDefault(player.getUniqueId(), 0L);
+        if (now - lastUsed < 300000L) {
+            long remaining = 300 - (now - lastUsed) / 1000;
+            player.sendMessage(ChatColor.RED + "Weather Control on cooldown! " + remaining + "s remaining.");
+            return;
+        }
+        weatherControlCooldown.put(player.getUniqueId(), now);
+
+        World world = player.getWorld();
+        if (!world.hasStorm()) {
+            world.setStorm(true);
+            world.setThundering(false);
+            player.sendMessage(ChatColor.AQUA + "[Weather Control] Rain started!");
+        } else if (!world.isThundering()) {
+            world.setThundering(true);
+            player.sendMessage(ChatColor.DARK_AQUA + "[Weather Control] Thunderstorm started!");
+        } else {
+            world.setStorm(false);
+            world.setThundering(false);
+            player.sendMessage(ChatColor.YELLOW + "[Weather Control] Skies cleared!");
+        }
+        // Particles
+        for (int i = 0; i < 20; i++) {
+            player.getWorld().spawnParticle(Particle.CLOUD, player.getLocation().add(0, i * 0.5, 0), 5, 0.2, 0.2, 0.2,
+                    0.05);
+        }
+    }
+
+    private static void executeMachination(Player player, JobPlugin plugin) {
+        PlayerJobData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+        boolean current = data.isToggledOn("Machination");
+        data.setToggledOn("Machination", !current);
+        player.sendMessage(ChatColor.GOLD + "[Machination] "
+                + (!current ? ChatColor.GREEN + "ACTIVE (Next hit deploys Golem)" : ChatColor.RED + "REMOVED"));
+    }
+
+    private static void executeSugarRush(Player player, int level, long now, JobPlugin plugin) {
+        long lastUsed = sugarRushCooldown.getOrDefault(player.getUniqueId(), 0L);
+        if (now - lastUsed < 60000L) {
+            long remaining = 60 - (now - lastUsed) / 1000;
+            player.sendMessage(ChatColor.RED + "Sugar rush on cooldown! " + remaining + "s remaining.");
+            return;
+        }
+        int hungerCost = 6;
+        if (player.getFoodLevel() < hungerCost) {
+            player.sendMessage(ChatColor.RED + "Not enough hunger to use Sugar rush! (Requires 3 drumsticks)");
+            return;
+        }
+        player.setFoodLevel(player.getFoodLevel() - hungerCost);
+
+        sugarRushCooldown.put(player.getUniqueId(), now);
+
+        int duration = (10 + level * 5) * 20; // 15s to 35s
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, duration, 1));
+        player.sendMessage(ChatColor.AQUA + "[Sugar rush] Speeding up! Hunger consumed.");
+        player.getWorld().spawnParticle(Particle.FIREWORK, player.getLocation(), 20, 0.5, 0.5, 0.5, 0.1);
+    }
+
+    private static void executeSeasoningPowder(Player player, JobPlugin plugin) {
+        PlayerJobData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+        boolean current = data.isToggledOn("Seasoning powder");
+        data.setToggledOn("Seasoning powder", !current);
+        player.sendMessage(ChatColor.GOLD + "[Seasoning powder] "
+                + (!current ? ChatColor.GREEN + "ACTIVE (Next hit seasons your target)" : ChatColor.RED + "REMOVED"));
+    }
+
+    private static void executeFlagBearer(Player player, int level, long now, JobPlugin plugin) {
+        long lastUsed = flagBearerCooldown.getOrDefault(player.getUniqueId(), 0L);
+        if (now - lastUsed < 120000L) {
+            long remaining = 120 - (now - lastUsed) / 1000;
+            player.sendMessage(ChatColor.RED + "Flag bearer on cooldown! " + remaining + "s remaining.");
+            return;
+        }
+        flagBearerCooldown.put(player.getUniqueId(), now);
+
+        Location loc = player.getLocation();
+        ArmorStand stand = loc.getWorld().spawn(loc, ArmorStand.class);
+        stand.setInvisible(true);
+        stand.setMarker(true);
+        stand.setGravity(false);
+        stand.getEquipment().setHelmet(new ItemStack(Material.WHITE_BANNER));
+
+        int durationSec = 10 + (level * 5);
+        int durationTicks = durationSec * 20;
+
+        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, durationTicks, level > 3 ? 1 : 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, durationTicks, level > 2 ? 1 : 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, durationTicks, level > 1 ? 1 : 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, durationTicks, 4)); // Heavy slowness
+
+        player.sendMessage(ChatColor.GOLD + "[Flag bearer] FOR THE CAUSE! (Duration: " + durationSec + "s)");
+
+        new org.bukkit.scheduler.BukkitRunnable() {
+            @Override
+            public void run() {
+                stand.remove();
+            }
+        }.runTaskLater(plugin, durationTicks);
+    }
+
+    private static void executeTemporaryCamp(Player player, int level, long now, JobPlugin plugin) {
+        if (player.getWorld().getEnvironment() != org.bukkit.World.Environment.NORMAL) {
+            player.sendMessage(ChatColor.RED + "Temporary Camp can only be used in the Overworld!");
+            return;
+        }
+        long lastUsed = temporaryCampCooldown.getOrDefault(player.getUniqueId(), 0L);
+        int cooldownSec = 300 - (level - 1) * 60;
+        if (now - lastUsed < cooldownSec * 1000L) {
+            long remaining = cooldownSec - (now - lastUsed) / 1000;
+            player.sendMessage(ChatColor.RED + "Temporary Camp on cooldown! " + remaining + "s remaining.");
+            return;
+        }
+        temporaryCampCooldown.put(player.getUniqueId(), now);
+
+        Location base = player.getLocation().getBlock().getLocation();
+
+        // ===== Tent poles =====
+        base.clone().add(-1, 0, 0).getBlock().setType(Material.OAK_FENCE);
+        base.clone().add(1, 0, 0).getBlock().setType(Material.OAK_FENCE);
+
+        // ===== Side walls =====
+        base.clone().add(-1, 1, 0).getBlock().setType(Material.WHITE_WOOL);
+        base.clone().add(1, 1, 0).getBlock().setType(Material.WHITE_WOOL);
+
+        // ===== Extended roof sides =====
+        for (int z = -1; z <= 1; z++) {
+            base.clone().add(-1, 2, z).getBlock().setType(Material.WHITE_WOOL);
+            base.clone().add(1, 2, z).getBlock().setType(Material.WHITE_WOOL);
+        }
+
+        // ===== Roof ridge =====
+        for (int z = -1; z <= 1; z++) {
+            base.clone().add(0, 3, z).getBlock().setType(Material.WHITE_WOOL);
+        }
+
+        // ===== Bed =====
+        BlockFace facing = player.getFacing();
+
+        Location footLoc = base.clone().add(0, 0, 1);
+        Location headLoc = footLoc.clone().add(facing.getModX(), 0, facing.getModZ());
+
+        Bed footData = (Bed) Bukkit.createBlockData(Material.WHITE_BED);
+        footData.setFacing(facing);
+        footData.setPart(Bed.Part.FOOT);
+        footLoc.getBlock().setBlockData(footData);
+
+        Bed headData = (Bed) Bukkit.createBlockData(Material.WHITE_BED);
+        headData.setFacing(facing);
+        headData.setPart(Bed.Part.HEAD);
+        headLoc.getBlock().setBlockData(headData);
+
+        // ===== Level upgrades =====
+        if (level >= 2) {
+            base.clone().add(-1, 0, -1).getBlock().setType(Material.CAMPFIRE);
+            base.clone().add(1, 0, -1).getBlock().setType(Material.CRAFTING_TABLE);
+        }
+
+        if (level >= 3) {
+            base.clone().add(0, 0, -2).getBlock().setType(Material.CHEST);
+            base.clone().add(0, 3, -1).getBlock().setType(Material.LANTERN);
+        }
+
+        player.sendMessage(ChatColor.GREEN + "[Temporary Camp] Rest here traveller.");
+    }
+
     private static boolean isCrop(Material m) {
         return m == Material.WHEAT || m == Material.CARROTS || m == Material.POTATOES || m == Material.BEETROOTS;
     }
@@ -530,6 +879,82 @@ public class SkillExecutor {
         org.bukkit.block.data.Ageable ageable = (org.bukkit.block.data.Ageable) b.getBlockData();
         ageable.setAge(ageable.getMaximumAge());
         b.setBlockData(ageable);
+    }
+
+    private static void executeFireBall(Player player, int level, long now, JobPlugin plugin) {
+        long lastUsed = fireBallCooldown.getOrDefault(player.getUniqueId(), 0L);
+        if (now - lastUsed < 15000L) {
+            long remaining = 15 - (now - lastUsed) / 1000;
+            player.sendMessage(ChatColor.RED + "Fire Ball on cooldown! " + remaining + "s remaining.");
+            return;
+        }
+
+        int hungerCost = 2; // Extra cost
+        if (player.getFoodLevel() < hungerCost) {
+            player.sendMessage(ChatColor.RED + "Not enough hunger to launch Fire Ball!");
+            return;
+        }
+        player.setFoodLevel(player.getFoodLevel() - hungerCost);
+        fireBallCooldown.put(player.getUniqueId(), now);
+
+        Location start = player.getEyeLocation();
+        Vector direction = start.getDirection().normalize();
+
+        new BukkitRunnable() {
+            Location loc = start.clone();
+            int distance = 0;
+            final int maxDistance = 20 + (level * 5);
+
+            @Override
+            public void run() {
+                for (int i = 0; i < 2; i++) { // Advance twice per tick for smoother look
+                    loc.add(direction.clone().multiply(0.5));
+                    distance++;
+
+                    // Visual trail
+                    loc.getWorld().spawnParticle(Particle.DUST, loc, 1,
+                            new Particle.DustOptions(org.bukkit.Color.RED, 1.0f));
+                    loc.getWorld().spawnParticle(Particle.FLAME, loc, 1, 0, 0, 0, 0.02);
+
+                    // Check for hits
+                    for (Entity entity : loc.getWorld().getNearbyEntities(loc, 0.5, 0.5, 0.5)) {
+                        if (entity instanceof LivingEntity && !entity.equals(player)) {
+                            explode((LivingEntity) entity);
+                            cancel();
+                            return;
+                        }
+                    }
+
+                    // Check for block collision
+                    if (loc.getBlock().getType().isSolid()) {
+                        explode(null);
+                        cancel();
+                        return;
+                    }
+
+                    if (distance > maxDistance * 2) {
+                        cancel();
+                        return;
+                    }
+                }
+            }
+
+            private void explode(LivingEntity target) {
+                // Explosion particles
+                loc.getWorld().spawnParticle(Particle.EXPLOSION, loc, 1);
+                loc.getWorld().spawnParticle(Particle.DUST, loc, 30, 0.5, 0.5, 0.5,
+                        new Particle.DustOptions(org.bukkit.Color.RED, 1.5f));
+                loc.getWorld().spawnParticle(Particle.FLAME, loc, 20, 0.3, 0.3, 0.3, 0.1);
+
+                if (target != null) {
+                    target.damage(4.0 + (level * 2.0), player);
+                    target.setFireTicks(40 + (level * 20));
+                    player.sendMessage(ChatColor.GOLD + "[Fire Ball] Hit " + target.getName() + "!");
+                }
+            }
+        }.runTaskTimer(plugin, 0L, 1L);
+
+        player.sendMessage(ChatColor.GOLD + "[Fire Ball] Launched!");
     }
 
     private static LivingEntity getTargetEntity(Player player, int range) {
@@ -545,63 +970,66 @@ public class SkillExecutor {
         return null;
     }
 
-    public static long getCooldownRemainingMillis(Player player, String skillName, int level) {
+    public static long getSkillCooldownMillis(Player player, String skillName, int level) {
         long now = System.currentTimeMillis();
         long lastUsed = 0;
         long cdMillis = 0;
-
-        switch (skillName) {
-            case "Agronomist":
+        switch (skillName.toLowerCase()) {
+            case "agronomist":
                 lastUsed = agronomistCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 30000;
+                break;
+            case "nature's embrace":
+                lastUsed = natureEmbraceCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 45000;
+                break;
+            case "nature's bind":
+                lastUsed = natureBindCooldown.getOrDefault(player.getUniqueId(), 0L);
                 cdMillis = 60000;
                 break;
-            case "Nature Embrace":
-                lastUsed = natureEmbraceCooldown.getOrDefault(player.getUniqueId(), 0L);
-                cdMillis = 120000;
-                break;
-            case "Nature Bind":
-                lastUsed = natureBindCooldown.getOrDefault(player.getUniqueId(), 0L);
-                cdMillis = 15000;
-                break;
-            case "Blaze Burst":
+            case "blaze burst":
                 lastUsed = blazeBurstCooldown.getOrDefault(player.getUniqueId(), 0L);
                 cdMillis = 30000;
                 break;
-            case "Void Step":
+            case "void step":
                 lastUsed = voidStepCooldown.getOrDefault(player.getUniqueId(), 0L);
-                cdMillis = Math.max(5, 15 - level * 2) * 1000L;
-                break;
-            case "Axe Swing":
-                lastUsed = axeSwingCooldown.getOrDefault(player.getUniqueId(), 0L);
-                cdMillis = Math.max(2, 10 - level) * 1000L;
-                break;
-            case "Pack Assault":
-                lastUsed = packAssaultCooldown.getOrDefault(player.getUniqueId(), 0L);
-                cdMillis = 30000;
-                break;
-            case "Alpha Command":
-                lastUsed = alphaCommandCooldown.getOrDefault(player.getUniqueId(), 0L);
                 cdMillis = 60000;
                 break;
-            case "Hunter's Mark":
-                lastUsed = hunterMarkCooldown.getOrDefault(player.getUniqueId(), 0L);
-                cdMillis = 30000;
+            case "weather control":
+                lastUsed = weatherControlCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 300000;
                 break;
-            case "Deep Pressure":
-                lastUsed = deepPressureCooldown.getOrDefault(player.getUniqueId(), 0L);
-                cdMillis = 45000;
-                break;
-            case "Volatile Flask":
-                lastUsed = volatileFlaskCooldown.getOrDefault(player.getUniqueId(), 0L);
-                cdMillis = 25000;
-                break;
-            case "Stampede":
-                lastUsed = stampedeCooldown.getOrDefault(player.getUniqueId(), 0L);
+            case "sugar rush":
+                lastUsed = sugarRushCooldown.getOrDefault(player.getUniqueId(), 0L);
                 cdMillis = 40000;
                 break;
-            case "Void Corruption":
-                lastUsed = voidCorruptionCooldown.getOrDefault(player.getUniqueId(), 0L);
-                cdMillis = 20000;
+            case "seasoning powder":
+                lastUsed = seasoningPowderCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 30000;
+                break;
+            case "flag bearer":
+                lastUsed = flagBearerCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 120000;
+                break;
+            case "temporary camp":
+                lastUsed = temporaryCampCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = (300 - (level - 1) * 60) * 1000;
+                break;
+            case "hive guardian":
+                lastUsed = hiveGuardianCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 30000;
+                break;
+            case "spectral weapon":
+                lastUsed = spectralWeaponCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 45000;
+                break;
+            case "machination":
+                lastUsed = machinationCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 60000;
+                break;
+            case "pack assault":
+                lastUsed = packAssaultCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 45000;
                 break;
             default:
                 return 0;
@@ -609,5 +1037,50 @@ public class SkillExecutor {
 
         long remaining = cdMillis - (now - lastUsed);
         return remaining > 0 ? remaining : 0;
+    }
+
+    public static boolean isCooldownActive(Player player, String skillName) {
+        long now = System.currentTimeMillis();
+        long lastUsed = 0;
+        long cdMillis = 0;
+
+        switch (skillName.toLowerCase()) {
+            case "hive guardian":
+                lastUsed = hiveGuardianCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 30000;
+                break;
+            case "spectral weapon":
+                lastUsed = spectralWeaponCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 45000;
+                break;
+            case "machination":
+                lastUsed = machinationCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 60000;
+                break;
+            case "pack assault":
+                lastUsed = packAssaultCooldown.getOrDefault(player.getUniqueId(), 0L);
+                cdMillis = 45000;
+                break;
+        }
+
+        return (now - lastUsed) < cdMillis;
+    }
+
+    public static void updateCooldown(Player player, String skillName) {
+        long now = System.currentTimeMillis();
+        switch (skillName.toLowerCase()) {
+            case "hive guardian":
+                hiveGuardianCooldown.put(player.getUniqueId(), now);
+                break;
+            case "spectral weapon":
+                spectralWeaponCooldown.put(player.getUniqueId(), now);
+                break;
+            case "machination":
+                machinationCooldown.put(player.getUniqueId(), now);
+                break;
+            case "pack assault":
+                packAssaultCooldown.put(player.getUniqueId(), now);
+                break;
+        }
     }
 }

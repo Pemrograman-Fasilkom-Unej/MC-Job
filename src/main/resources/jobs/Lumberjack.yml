@@ -10,8 +10,8 @@ xp_triggers:
 - Break leaves
 requirements: []
 bonuses:
-  player.block_break_speed: 0.1
-  generic.armor: 1.0
+  block_break_speed: 0.1
+  armor: 1.0
 skills:
   Timber Fury:
     type: Passive

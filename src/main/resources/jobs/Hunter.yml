@@ -10,8 +10,8 @@ xp_triggers:
 - Track and kill marked targets
 requirements: []
 bonuses:
-  generic.knockback_resistance: 0.05
-  player.entity_interaction_range: 0.2
+  knockback_resistance: 0.05
+  entity_interaction_range: 0.2
 skills:
   Iron Stomach:
     type: Passive

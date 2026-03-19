@@ -3,16 +3,16 @@ package com.darkun7.job.listeners.jobs;
 import com.darkun7.job.JobPlugin;
 import com.darkun7.job.models.PlayerJobData;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.AbstractHorse;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.entity.EntityMountEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -97,6 +97,46 @@ public class BreederListener implements Listener {
             List<ItemStack> extraDrops = new ArrayList<>(event.getDrops());
             for (ItemStack drop : extraDrops) {
                 drop.setAmount(drop.getAmount() * multiplier);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onMount(EntityMountEvent event) {
+        if (!(event.getEntity() instanceof Player))
+            return;
+        Player player = (Player) event.getEntity();
+        PlayerJobData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
+
+        if (data.getSkillLevel("Rider") > 0) {
+            if (event.getMount() instanceof LivingEntity) {
+                LivingEntity mount = (LivingEntity) event.getMount();
+
+                AttributeInstance speedAttr = mount.getAttribute(Attribute.MOVEMENT_SPEED);
+                AttributeInstance healthAttr = mount.getAttribute(Attribute.MAX_HEALTH);
+
+                double speed = (speedAttr != null) ? speedAttr.getValue() : 0;
+                double health = (healthAttr != null) ? healthAttr.getValue() : 0;
+
+                String speedRank = speed < 0.18 ? "Low" : (speed > 0.26 ? "High" : "Mid");
+                String healthRank = health < 20 ? "Low" : (health > 25 ? "High" : "Mid");
+
+                player.sendMessage(ChatColor.AQUA + "--- Mount Stats ---");
+                player.sendMessage(ChatColor.YELLOW + "Speed: " + ChatColor.WHITE + String.format("%.3f", speed)
+                        + ChatColor.GRAY + " (" + speedRank + ")");
+
+                if (mount instanceof AbstractHorse) {
+                    double jump = ((AbstractHorse) mount).getJumpStrength();
+                    String jumpRank = jump < 0.6 ? "Low" : (jump > 0.8 ? "High" : "Mid");
+                    player.sendMessage(ChatColor.YELLOW + "Jump: " + ChatColor.WHITE + String.format("%.3f", jump)
+                            + ChatColor.GRAY + " (" + jumpRank + ")");
+                } else if (mount instanceof org.bukkit.entity.Camel) {
+                    player.sendMessage(ChatColor.YELLOW + "Jump: " + ChatColor.WHITE + "N/A (Camel Dash)");
+                }
+
+                player.sendMessage(ChatColor.YELLOW + "Health: " + ChatColor.WHITE + String.format("%.1f", health)
+                        + ChatColor.GRAY + " (" + healthRank + ")");
+                player.sendMessage(ChatColor.AQUA + "-----------------");
             }
         }
     }

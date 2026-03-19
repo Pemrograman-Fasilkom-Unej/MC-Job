@@ -1,0 +1,54 @@
+name: Journeyman
+theme:
+- Exploration
+- Archaeology
+- Travel
+xp_triggers:
+- Craft armor trim template
+- Brush suspicious blocks
+requirements: []
+bonuses:
+  max_health: 1.0
+  luck: 1.0
+skills:
+  Escape Rope:
+    type: Active
+    category: Utility
+    description: Teleport to the surface safely.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 1
+    points_per_level: 3
+    toggleable: false
+    trigger_item: LEAD
+    cooldown: 60
+  Ruin Radar:
+    type: Active
+    category: Exploration
+    description: Track nearby structures with aqua particles.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: RECOVERY_COMPASS
+    cooldown: 30
+  Pocket Station:
+    type: Active
+    category: Utility
+    description: Access Crafting, Cartography, or Anvil on the go.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 3
+    points_per_level: 2
+    toggleable: false
+    trigger_item: CRAFTING_TABLE
+    cooldown: 0
+  Hide in Shadow:
+    type: Passive
+    category: Stealth
+    description: Automatically gain invisibility at night.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: COAL
+rewards:
+  Craft armor trim template: 250
+  Brush suspicious blocks: 50

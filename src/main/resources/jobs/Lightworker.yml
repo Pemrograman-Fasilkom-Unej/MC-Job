@@ -1,0 +1,56 @@
+name: Lightworker
+theme:
+- Leather
+- Wool
+- Survival
+xp_triggers:
+- Craft leather items
+- Shear sheep
+- Craft wool
+- Dye wool
+requirements: []
+bonuses:
+  luck: 1.0
+  max_health: 1.0
+skills:
+  Flag bearer:
+    type: Active
+    category: Utility
+    description: Spawn a temporary flag that grants Strength, Resistance, and Regeneration but applies Slowness.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: WHITE_BANNER
+    cooldown: 120
+  Temporary Camp:
+    type: Active
+    category: Utility
+    description: Set up a small camp with a bed and tent. Lv2+ adds a crafting table.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 3
+    points_per_level: 1
+    toggleable: false
+    trigger_item: CAMPFIRE
+    cooldown: 300
+  Traveler's Comfort:
+    type: Passive
+    category: Utility
+    description: Sleeping in a bed grants temporary Speed, Resistance, and Regeneration.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: WHITE_BED
+  Snare Trap:
+    type: Passive
+    category: Combat
+    description: Chance to spawn a spider web under your target when hitting with Sword, Axe, or Projectile.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: COBWEB
+rewards:
+  Craft leather items: 15
+  Shear sheep: 5
+  Craft wool: 4
+  Dye wool: 3

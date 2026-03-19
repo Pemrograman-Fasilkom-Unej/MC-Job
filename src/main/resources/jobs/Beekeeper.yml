@@ -11,7 +11,7 @@ xp_triggers:
 - Craft honey blocks
 requirements: []
 bonuses:
-  generic.max_health: 2.0
+  max_health: 2.0
 skills:
   Honey Yield:
     type: Passive
@@ -58,3 +58,5 @@ rewards:
   Harvest honey manually: 15
   Bottle honey: 5
   Breed bees: 20
+  Craft beehive or bee nest: 10
+  Craft honey blocks: 10

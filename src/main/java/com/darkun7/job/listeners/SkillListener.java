@@ -13,6 +13,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.Bukkit;
+import org.bukkit.event.inventory.InventoryType;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +32,8 @@ public class SkillListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         String title = ChatColor.stripColor(event.getView().getTitle());
         if (!title.contains("My Professions") && !title.contains("Skills:") && !title.contains("Rankings")
-                && !title.contains("Leaderboard") && !title.contains("Manage Active Skills")) {
+                && !title.contains("Leaderboard") && !title.contains("Manage Active Skills")
+                && !title.contains("Ruin Radar") && !title.contains("Pocket Station")) {
             return;
         }
 
@@ -76,6 +80,14 @@ public class SkillListener implements Listener {
                     } catch (Exception e) {
                     }
                 }
+                return;
+            }
+
+            // Handle Disable All button
+            if (currentItem.getType() == Material.RED_WOOL) {
+                data.getActiveSkillsList().clear();
+                player.sendMessage(ChatColor.RED + "All active skills disabled.");
+                com.darkun7.job.gui.ActiveSkillManagerGUI.openSkillManager(player, data, plugin);
                 return;
             }
 
@@ -244,6 +256,32 @@ public class SkillListener implements Listener {
             if (currentItem.getType() == Material.ARROW) {
                 SkillMenuGUI.openJobSelector(player, data, plugin);
             }
+        } else if (title.contains("Ruin Radar")) {
+            event.setCancelled(true);
+            ItemMeta meta = currentItem.getItemMeta();
+            if (meta != null && meta.hasLore()) {
+                String structureId = null;
+                for (String line : meta.getLore()) {
+                    if (ChatColor.stripColor(line).startsWith("ID: ")) {
+                        structureId = ChatColor.stripColor(line).replace("ID: ", "").trim();
+                        break;
+                    }
+                }
+                if (structureId != null) {
+                    com.darkun7.job.utils.SkillExecutor.startStructureRadar(player, structureId, plugin);
+                    player.closeInventory();
+                }
+            }
+        } else if (title.contains("Pocket Station")) {
+            event.setCancelled(true);
+            String dName = ChatColor.stripColor(currentItem.getItemMeta().getDisplayName());
+            if (dName.contains("Worktable")) {
+                player.openWorkbench(null, true);
+            } else if (dName.contains("Cartographer")) {
+                player.openInventory(Bukkit.createInventory(player, InventoryType.CARTOGRAPHY));
+            } else if (dName.contains("Pocket Anvil")) {
+                player.openAnvil(null, true);
+            }
         }
     }
 
@@ -258,6 +296,7 @@ public class SkillListener implements Listener {
             }
             data.setSkillLevel(skill.getName(), 0);
             data.setToggledOn(skill.getName(), false);
+            data.getActiveSkillsList().remove(skill.getName());
         }
 
         // Apply Penalities

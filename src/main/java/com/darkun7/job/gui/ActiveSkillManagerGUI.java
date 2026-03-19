@@ -131,6 +131,16 @@ public class ActiveSkillManagerGUI {
         back.setItemMeta(backMeta);
         inv.setItem(53, back);
 
+        // Disable All button
+        ItemStack disableAll = new ItemStack(Material.RED_WOOL);
+        ItemMeta disableMeta = disableAll.getItemMeta();
+        disableMeta.setDisplayName(ChatColor.DARK_RED + "Disable ALL Active Skills");
+        List<String> disableLore = new ArrayList<>();
+        disableLore.add(ChatColor.GRAY + "Clears all currently equipped skills.");
+        disableMeta.setLore(disableLore);
+        disableAll.setItemMeta(disableMeta);
+        inv.setItem(52, disableAll);
+
         player.openInventory(inv);
     }
 

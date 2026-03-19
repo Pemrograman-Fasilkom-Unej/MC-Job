@@ -22,7 +22,7 @@ processResources {
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.21.7-R0.1-SNAPSHOT'
+    compileOnly 'io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT'
     compileOnly 'net.md-5:bungeecord-chat:1.16-R0.4' // for TextComponent support
     compileOnly 'net.kyori:adventure-api:4.17.0'
 }

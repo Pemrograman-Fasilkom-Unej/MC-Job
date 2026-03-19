@@ -51,6 +51,7 @@ public class HunterListener implements Listener {
             if (data.getSkillLevel("Spearman") > 0 && data.getActiveSkillsList().contains("Spearman")) {
                 ItemStack held = attacker.getInventory().getItemInMainHand();
                 if (held.getType() == Material.TRIDENT
+                        || held.getType().name().contains("SPEAR")
                         || event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
                     double bonus = 0.20 * data.getSkillLevel("Spearman");
                     event.setDamage(event.getDamage() * (1.0 + bonus));

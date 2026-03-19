@@ -64,6 +64,11 @@ public class JobPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new NethermancerListener(this), this);
         getServer().getPluginManager().registerEvents(new SmithListener(this), this);
         getServer().getPluginManager().registerEvents(new TamerListener(this), this);
+        getServer().getPluginManager().registerEvents(new JourneymanListener(this), this);
+        getServer().getPluginManager().registerEvents(new EngineerListener(this), this);
+        getServer().getPluginManager().registerEvents(new CulinaryListener(this), this);
+        getServer().getPluginManager().registerEvents(new LightworkerListener(this), this);
+        getServer().getPluginManager().registerEvents(new IceLoggerListener(this), this);
 
         // Start periodic tasks
         new com.darkun7.job.managers.PeriodicSkillTaskManager(this).start();

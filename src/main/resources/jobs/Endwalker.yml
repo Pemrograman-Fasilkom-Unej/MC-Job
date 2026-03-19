@@ -7,11 +7,9 @@ xp_triggers:
 - Kill Ender Dragon
 - Use Ender Pearls
 - Loot End Cities
-requirements:
-- level: 30
-- permission: job.end
+requirements: []
 bonuses:
-  generic.max_health: 1.0
+  max_health: 1.0
 skills:
   Void Step:
     type: Active

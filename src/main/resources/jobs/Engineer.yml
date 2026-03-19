@@ -1,0 +1,55 @@
+name: Engineer
+theme:
+- Technology
+- Redstone
+- Mechanics
+xp_triggers:
+- Breaking redstone block
+- Ignite TNT
+- Craft redstone items or rails items
+requirements: []
+bonuses:
+  armor: 1.0
+  knockback_resistance: 0.1
+skills:
+  Weather control:
+    type: Active
+    category: Utility
+    description: Cycle the world weather (Clear -> Rain -> Thunder).
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 1
+    points_per_level: 5
+    toggleable: false
+    trigger_item: LIGHTNING_ROD
+    cooldown: 300
+  IR glasses:
+    type: Passive
+    category: Utility
+    description: Gain night vision when deep underground. Level increases the Y-level threshold.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: TINTED_GLASS
+  Spring boots:
+    type: Passive
+    category: Mobility
+    description: Double jump to reach new heights.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: DIAMOND_BOOTS
+    cooldown: 45
+  Machination:
+    type: Active
+    category: Combat
+    description: On hit, chance to summon an Iron Golem protector. Golem health and duration scale with level.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 1
+    toggleable: true
+    trigger_item: IRON_BLOCK
+    cooldown: 60
+rewards:
+  Breaking redstone block: 30
+  Ignite TNT: 50
+  Craft redstone items or rails items: 50

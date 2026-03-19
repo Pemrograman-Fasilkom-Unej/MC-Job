@@ -82,7 +82,9 @@ public class LumberjackListener implements Listener {
 
         // Timber Fury
         if (data.getSkillLevel("Timber Fury") > 0 && data.getActiveSkillsList().contains("Timber Fury")) {
-            if ((type.name().contains("LOG") || type.name().contains("WOOD"))
+            if ((type.name().contains("LOG") || type.name().contains("WOOD") || 
+                 type.name().contains("CRIMSON_STEM") || type.name().contains("WARPED_STEM") || 
+                 type.name().contains("CRIMSON_HYPHAE") || type.name().contains("WARPED_HYPHAE"))
                     && !event.getBlock().hasMetadata("placed_by_player")) {
                 com.darkun7.job.models.Skill skill = plugin.getJobManager().getJob("Lumberjack")
                         .getSkill("Timber Fury");
@@ -108,7 +110,11 @@ public class LumberjackListener implements Listener {
             if (visited.contains(current))
                 continue;
             visited.add(current);
-            if (!current.getType().name().contains("LOG") && !current.getType().name().contains("LEAVES"))
+            String name = current.getType().name();
+            if (!name.contains("LOG") && !name.contains("LEAVES") && 
+                !name.contains("WART_BLOCK") && current.getType() != Material.SHROOMLIGHT &&
+                !name.contains("CRIMSON_STEM") && !name.contains("WARPED_STEM") &&
+                !name.contains("CRIMSON_HYPHAE") && !name.contains("WARPED_HYPHAE"))
                 continue;
 
             if (!current.equals(start)) {
@@ -130,7 +136,14 @@ public class LumberjackListener implements Listener {
         }
         Block ground = start.getRelative(0, -1, 0);
         Material sapling = getSaplingForLog(start.getType());
-        if (sapling != null && ground.getType() == Material.GRASS_BLOCK || ground.getType() == Material.DIRT) {
+        
+        Material groundType = ground.getType();
+        boolean validGround = groundType == Material.GRASS_BLOCK || groundType == Material.DIRT || 
+                              groundType == Material.PODZOL || groundType == Material.MYCELIUM ||
+                              groundType == Material.CRIMSON_NYLIUM || groundType == Material.WARPED_NYLIUM ||
+                              groundType == Material.NETHERRACK || groundType == Material.SOUL_SOIL;
+
+        if (sapling != null && validGround) {
             start.setType(sapling);
         }
     }
@@ -148,6 +161,10 @@ public class LumberjackListener implements Listener {
             return Material.ACACIA_SAPLING;
         if (logType.name().contains("DARK_OAK"))
             return Material.DARK_OAK_SAPLING;
+        if (logType.name().contains("CRIMSON"))
+            return Material.CRIMSON_FUNGUS;
+        if (logType.name().contains("WARPED"))
+            return Material.WARPED_FUNGUS;
         return Material.OAK_SAPLING;
     }
 

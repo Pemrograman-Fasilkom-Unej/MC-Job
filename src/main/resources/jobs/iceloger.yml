@@ -1,0 +1,55 @@
+name: Breeder
+theme:
+- Livestock Economy
+- Mounted Combat
+xp_triggers:
+- Breed cows and pigs
+- Breed chickens
+- Shear sheep
+- Milk cows
+requirements: []
+bonuses:
+  player.entity_interaction_range: 0.25
+skills:
+  Stockmaster:
+    type: Passive
+    category: Utility
+    description: Increase meat, leather, and feather drops.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: WHEAT
+  Mutation:
+    type: Passive
+    category: Proc
+    description: Chance to spawn Super Animal with increased HP and bonus drops.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: GOLDEN_CARROT
+    preview_text: "Chance to trigger is {chance}%"
+    chance_per_level: 20.0
+    max_chance: 100.0
+  Rider:
+    type: Passive
+    category: Utility
+    description: Get information about your mount.
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: SADDLE
+  Stampede:
+    type: Active
+    category: Offensive
+    description: While mounted, charge forward and knock back enemies, dealing damage.
+    activation_text: "Shift while mounted"
+    max_level: 5
+    points_per_level: 2
+    toggleable: false
+    trigger_item: IRON_HORSE_ARMOR
+    cooldown: 20
+rewards:
+  Breed cows and pigs: 25
+  Breed chickens: 10
+  Shear sheep: 5
+  Milk cows: 5

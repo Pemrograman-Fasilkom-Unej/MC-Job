@@ -6,10 +6,9 @@ xp_triggers:
 - Tame wolf or cat
 - Breed wolf or cat
 - Heal pets
-requirements:
-- level: 5
+requirements: []
 bonuses:
-  generic.max_health: 1.0
+  max_health: 1.0
 skills:
   Pack Assault:
     type: Active

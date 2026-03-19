@@ -7,10 +7,9 @@ xp_triggers:
 - Extend or upgrade potions
 - Use splash or lingering potions
 - Cure zombie villager
-requirements:
-- level: 10
+requirements: []
 bonuses:
-  generic.luck: 2.0
+  luck: 2.0
 skills:
   Extra Brew:
     type: Passive

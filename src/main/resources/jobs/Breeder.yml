@@ -9,7 +9,7 @@ xp_triggers:
 - Milk cows
 requirements: []
 bonuses:
-  player.entity_interaction_range: 0.25
+  entity_interaction_range: 0.25
 skills:
   Stockmaster:
     type: Passive
@@ -33,7 +33,7 @@ skills:
   Rider:
     type: Passive
     category: Utility
-    description: Jump boost and speed boost while riding any mount.
+    description: Get information about your mount.
     max_level: 5
     points_per_level: 1
     toggleable: false

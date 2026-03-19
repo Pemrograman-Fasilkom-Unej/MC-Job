@@ -10,8 +10,7 @@ xp_triggers:
 - Fish during rain
 requirements: []
 bonuses:
-  generic.luck: 1.0
-  generic.luck: 0.5
+  luck: 1.0
 skills:
   Angler Savant:
     type: Passive

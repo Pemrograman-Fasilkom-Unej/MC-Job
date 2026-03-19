@@ -1,9 +1,7 @@
 package com.darkun7.job.listeners;
 
 import com.darkun7.job.JobPlugin;
-import com.darkun7.job.models.Job;
-import com.darkun7.job.models.PlayerJobData;
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,21 +17,37 @@ import org.bukkit.entity.Monster;
 import org.bukkit.entity.Animals;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.TNTPrimed;
+import org.bukkit.entity.ZombieVillager;
+import org.bukkit.entity.EnderPearl;
+import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Cow;
+import org.bukkit.entity.Tameable;
 import org.bukkit.block.Block;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerShearEntityEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.AnvilInventory;
+import org.bukkit.inventory.GrindstoneInventory;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityTransformEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.world.LootGenerateEvent;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class TriggerListener implements Listener {
 
     private final JobPlugin plugin;
+    private static final Set<String> discoveredChunks = new HashSet<>();
 
     public TriggerListener(JobPlugin plugin) {
         this.plugin = plugin;
@@ -55,15 +69,12 @@ public class TriggerListener implements Listener {
                 addXPToJob(player, "Breed cows and pigs");
             } else if (type == EntityType.CHICKEN) {
                 addXPToJob(player, "Breed chickens");
+            } else if (type == EntityType.BEE) {
+                addXPToJob(player, "Breed bees");
+            } else if (type == EntityType.WOLF || type == EntityType.CAT) {
+                addXPToJob(player, "Breed wolf or cat");
             } else {
                 addXPToJob(player, "Breed animals");
-            }
-
-            if (type == EntityType.BEE) {
-                addXPToJob(player, "Breed bees");
-            }
-            if (type == EntityType.WOLF || type == EntityType.CAT) {
-                addXPToJob(player, "Breed wolf or cat");
             }
             addXPToJob(player, "Breed farm animals");
         }
@@ -91,6 +102,14 @@ public class TriggerListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         // Mark the block as player-placed to prevent XP abuse when it's broken
         event.getBlock().setMetadata("placed_by_player", new FixedMetadataValue(plugin, true));
+
+        // Farmer - Plant crops
+        Material mat = event.getBlock().getType();
+        if (mat == Material.WHEAT || mat == Material.CARROTS || mat == Material.POTATOES || 
+            mat == Material.BEETROOTS || mat == Material.PUMPKIN_STEM || mat == Material.MELON_STEM || 
+            mat == Material.SUGAR_CANE || mat == Material.SWEET_BERRY_BUSH) {
+            addXPToJob(event.getPlayer(), "Plant crops");
+        }
     }
 
     @EventHandler
@@ -108,6 +127,12 @@ public class TriggerListener implements Listener {
             if (event.getCaught() instanceof Item) {
                 addXPToJob(event.getPlayer(), "Catch treasure");
             }
+            
+            org.bukkit.block.Biome biome = event.getPlayer().getLocation().getBlock().getBiome();
+            String biomeName = biome.name();
+            if (biomeName.contains("ICE") || biomeName.contains("FROZEN") || biomeName.contains("SNOW")) {
+                addXPToJob(event.getPlayer(), "Fishing in Ice biome");
+            }
         }
     }
 
@@ -115,18 +140,49 @@ public class TriggerListener implements Listener {
     public void onCraft(CraftItemEvent event) {
         Player player = (Player) event.getWhoClicked();
         Material result = event.getRecipe().getResult().getType();
+        
         if (result.name().contains("IRON") || result.name().contains("GOLD") || result.name().contains("DIAMOND")
                 || result.name().contains("NETHERITE")) {
             addXPToJob(player, "Craft ore-based items");
         }
+        
         if (result.name().contains("WOODEN")) {
             addXPToJob(player, "Craft wooden tools");
+        }
+
+        // Beekeeper - Craft beehive/honey blocks
+        if (result == Material.BEEHIVE || result == Material.BEE_NEST) {
+            addXPToJob(player, "Craft beehive or bee nest");
+        } else if (result == Material.HONEY_BLOCK) {
+            addXPToJob(player, "Craft honey blocks");
+        }
+
+        // Culinary - Craft food items
+        if (result == Material.BREAD || result == Material.CAKE || result == Material.GOLDEN_CARROT) {
+            addXPToJob(player, "Cook food");
         }
     }
 
     @EventHandler
     public void onSmelt(FurnaceExtractEvent event) {
-        addXPToJob(event.getPlayer(), "Smelt ores");
+        Material type = event.getItemType();
+        if (isOreResult(type)) {
+            addXPToJob(event.getPlayer(), "Smelt ores");
+        } else if (isCookedFoodResult(type)) {
+            addXPToJob(event.getPlayer(), "Cook food");
+        }
+    }
+
+    private boolean isOreResult(Material type) {
+        String name = type.name();
+        return name.contains("INGOT") || name.contains("DIAMOND") || name.contains("EMERALD") || 
+               name.contains("QUARTZ") || name.contains("COAL") || name.contains("NETHERITE") ||
+               name.contains("COPPER") || name.contains("REDSTONE") || name.contains("LAPIS");
+    }
+
+    private boolean isCookedFoodResult(Material type) {
+        String name = type.name();
+        return name.contains("COOKED") || name.equals("BAKED_POTATO") || name.equals("DRIED_KELP");
     }
 
     @EventHandler
@@ -138,7 +194,21 @@ public class TriggerListener implements Listener {
     public void onRepair(InventoryClickEvent event) {
         if (event.getInventory() instanceof AnvilInventory && event.getSlotType() == InventoryType.SlotType.RESULT) {
             if (event.getWhoClicked() instanceof Player) {
-                addXPToJob((Player) event.getWhoClicked(), "Repair items in anvil");
+                Player player = (Player) event.getWhoClicked();
+                addXPToJob(player, "Repair items in anvil");
+
+                // Enchanter - Combine enchanted books
+                ItemStack result = event.getCurrentItem();
+                if (result != null && result.getType() == Material.ENCHANTED_BOOK) {
+                    addXPToJob(player, "Combine enchanted books");
+                }
+            }
+        }
+        
+        // Enchanter - Disenchant items (Grindstone)
+        if (event.getInventory() instanceof GrindstoneInventory && event.getSlotType() == InventoryType.SlotType.RESULT) {
+            if (event.getWhoClicked() instanceof Player) {
+                addXPToJob((Player) event.getWhoClicked(), "Disenchant items");
             }
         }
     }
@@ -153,6 +223,9 @@ public class TriggerListener implements Listener {
                 addXPToJob(killer, "Kill hostile mobs");
                 if (event.getEntity().getType() == EntityType.DROWNED) {
                     addXPToJob(killer, "Kill drowned");
+                }
+                if (event.getEntity().getType() == EntityType.STRAY) {
+                    addXPToJob(killer, "Kill Strays");
                 }
             } else if (event.getEntity() instanceof Animals) {
                 addXPToJob(killer, "Kill passive mobs");
@@ -169,9 +242,15 @@ public class TriggerListener implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event) {
-        if (event.getDamager() instanceof Player && (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE)) {
+        if (event.getDamager() instanceof Player) {
             Player player = (Player) event.getDamager();
-            addXPToJob(player, "Deal damage with bow, crossbow, or trident");
+            ItemStack held = player.getInventory().getItemInMainHand();
+            boolean isProjectile = event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE;
+            boolean isSpearOrTrident = held != null && (held.getType() == Material.TRIDENT || held.getType().name().contains("SPEAR"));
+
+            if (isProjectile || isSpearOrTrident) {
+                addXPToJob(player, "Deal damage with bow, crossbow, or trident");
+            }
         }
     }
 
@@ -182,10 +261,96 @@ public class TriggerListener implements Listener {
             if (tnt.getSource() instanceof Player) {
                 Player player = (Player) tnt.getSource();
                 for (Block block : event.blockList()) {
-                    // This uses the anti-abuse logic internally (marks player-placed blocks as
-                    // skip)
                     plugin.getExperienceManager().awardBlockXP(player, block);
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onCureStart(PlayerInteractEntityEvent event) {
+        if (event.getRightClicked().getType() == EntityType.ZOMBIE_VILLAGER) {
+            ItemStack item = event.getPlayer().getInventory().getItem(event.getHand());
+            if (item != null && item.getType() == Material.GOLDEN_APPLE) {
+                ZombieVillager zv = (ZombieVillager) event.getRightClicked();
+                if (zv.hasPotionEffect(org.bukkit.potion.PotionEffectType.WEAKNESS)) {
+                    zv.setMetadata("cured_by", new FixedMetadataValue(plugin, event.getPlayer().getUniqueId().toString()));
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onCureComplete(EntityTransformEvent event) {
+        if (event.getTransformReason() == EntityTransformEvent.TransformReason.CURED) {
+            if (event.getEntity().hasMetadata("cured_by")) {
+                String uuidStr = event.getEntity().getMetadata("cured_by").get(0).asString();
+                Player player = Bukkit.getPlayer(UUID.fromString(uuidStr));
+                if (player != null) {
+                    addXPToJob(player, "Cure zombie villager");
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onLootGenerate(LootGenerateEvent event) {
+        if (event.getLootTable().getKey().getKey().contains("end_city")) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (p.getLocation().distanceSquared(event.getLootContext().getLocation()) < 100) {
+                    addXPToJob(p, "Loot End Cities");
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPearlLaunch(ProjectileLaunchEvent event) {
+        if (event.getEntity() instanceof EnderPearl && event.getEntity().getShooter() instanceof Player) {
+            addXPToJob((Player) event.getEntity().getShooter(), "Use Ender Pearls");
+        }
+    }
+
+    @EventHandler
+    public void onShear(PlayerShearEntityEvent event) {
+        if (event.getEntity() instanceof Sheep) {
+            addXPToJob(event.getPlayer(), "Shear sheep");
+        }
+    }
+
+    @EventHandler
+    public void onInteractEntity(PlayerInteractEntityEvent event) {
+        Player player = event.getPlayer();
+        if (event.getRightClicked() instanceof Cow && event.getPlayer().getInventory().getItemInMainHand().getType() == Material.BUCKET) {
+            addXPToJob(player, "Milk cows");
+        }
+        
+        if (event.getRightClicked() instanceof Tameable) {
+            Tameable pet = (Tameable) event.getRightClicked();
+            if (pet.isTamed() && pet.getOwner().getUniqueId().equals(player.getUniqueId())) {
+                Material food = player.getInventory().getItemInMainHand().getType();
+                if (food.isEdible() || food == Material.BONE || food == Material.ROTTEN_FLESH) {
+                    addXPToJob(player, "Heal pets");
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBoneMeal(PlayerInteractEvent event) {
+        if (event.getAction() == org.bukkit.event.block.Action.RIGHT_CLICK_BLOCK && event.getItem() != null && event.getItem().getType() == Material.BONE_MEAL) {
+            addXPToJob(event.getPlayer(), "Use bone meal");
+        }
+    }
+
+    @EventHandler
+    public void onMove(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        if (player.getLocation().getY() < 40) {
+            String chunkKey = player.getWorld().getName() + ":" + player.getLocation().getChunk().getX() + "," + player.getLocation().getChunk().getZ();
+            if (!discoveredChunks.contains(chunkKey)) {
+                discoveredChunks.add(chunkKey);
+                addXPToJob(player, "Discover new cave areas");
             }
         }
     }

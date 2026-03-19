@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.entity.Projectile;
+import org.bukkit.World;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,14 +51,16 @@ public class NethermancerListener implements Listener {
         Player player = (Player) event.getEntity();
         PlayerJobData data = plugin.getPlayerDataManager().getPlayerData(player.getUniqueId());
 
-        // Flame Affinity: Gain regeneration while receiving fire damage
+        // Flame Affinity: Permanent fire resistance in the Nether
         if (data.getSkillLevel("Flame Affinity") > 0 && data.getActiveSkillsList().contains("Flame Affinity")) {
-            if (isFireDamage(event.getCause())) {
-                int level = data.getSkillLevel("Flame Affinity");
-                // Grant Regen for 5 seconds (100 ticks).
-                // Level 1-2: Regen I, Level 3-4: Regen II, Level 5: Regen III
-                int amplifier = (level - 1) / 2;
-                player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100, amplifier, true, true));
+            if (player.getWorld().getEnvironment() == World.Environment.NETHER) {
+                if (isFireDamage(event.getCause())) {
+                    event.setCancelled(true);
+                    player.setFireTicks(0);
+                    // Add fire resistance effect just in case damage cancellation isn't enough
+                    // (e.g. visual effects)
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 200, 0, true, true));
+                }
             }
         }
 

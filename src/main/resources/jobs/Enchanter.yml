@@ -6,10 +6,9 @@ xp_triggers:
 - Enchant items
 - Combine enchanted books
 - Disenchant items
-requirements:
-- level: 10
+requirements: []
 bonuses:
-  generic.luck: 3.0
+  luck: 3.0
 skills:
   Scholar:
     type: Passive
@@ -38,6 +37,17 @@ skills:
     points_per_level: 1
     toggleable: false
     trigger_item: ENCHANTED_BOOK
+  Fire Ball:
+    type: Active
+    category: Combat
+    description: Launch a fire ball with red particles. Deals fire damage on hit.
+    activation_text: "Trigger via Skill Hotbar (Shift+F)"
+    max_level: 5
+    points_per_level: 1
+    toggleable: false
+    trigger_item: BLAZE_POWDER
+    cooldown: 15
+    mana_cost: 20
 rewards:
   Enchant items: 50
   Combine enchanted books: 30
